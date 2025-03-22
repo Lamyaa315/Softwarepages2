@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - Makeup Artist</title>
+    <link rel="stylesheet" href="General.css">
+    <script defer src="artists.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f8fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+        .container {
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            flex-grow: 1;
+        }
+        .gallery img {
+            max-width: 100px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        .checkbox-group {
+            text-align: center;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="logo2.jpg" alt="رواء Logo">
+        </div>
+        <nav class="navigation">
+            <ul>
+                <li><a href="MAHomePage.html">Home</a></li>
+                <li><a href="MAppointment.html">Reservations</a></li>
+                <li><a href="modifyArtistProfile.html">Edit Profile</a></li>
+                <li><a href="WelcomePage.html" class="signout">Signout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container" id="profileContainer">
+        <h1>Edit Your Profile</h1>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name">
+
+        <label for="description">Description:</label>
+        <textarea id="description"></textarea>
+
+        <h2>My Work</h2>
+        <div class="gallery" id="galleryContainer"></div>
+        <input type="text" id="newWorkImage" placeholder="Add image URL">
+        <button onclick="addWorkImage()">Add Image</button>
+
+        <h2>Services</h2>
+        <div class="checkbox-group">
+           <label><input type="checkbox" id="eveningMakeup" value="Evening Makeup"> Evening Makeup</label>
+            <label><input type="checkbox" id="bridalMakeup" value="Bridal Makeup">  Bridal Makeup</label>
+        </div>
+
+        <h2>Contact</h2>
+        <label for="whatsapp">WhatsApp:</label>
+        <input type="text" id="whatsapp">
+
+        <label for="instagram">Instagram:</label>
+        <input type="text" id="instagram"><br>
+
+        <button class="save-button" onclick="saveProfile()">Save Changes</button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 رواء. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function loadArtistProfile() {
+            const savedProfile = localStorage.getItem("artistProfile");
+
+            if (savedProfile) {
+                const artist = JSON.parse(savedProfile);
+                
+                document.getElementById("name").value = artist.name || "";
+                document.getElementById("description").value = artist.description || "";
+                document.getElementById("whatsapp").value = artist.whatsapp || "";
+                document.getElementById("instagram").value = artist.instagram || "";
+
+                // استرجاع الخدمات المختارة
+                const services = artist.services || [];
+                document.getElementById("eveningMakeup").checked = services.includes("Evening Makeup");
+                document.getElementById("bridalMakeup").checked = services.includes("Bridal Makeup");
+                document.getElementById("naturalLook").checked = services.includes("Natural Look");
+
+                // استرجاع الصور المحفوظة
+                const galleryContainer = document.getElementById("galleryContainer");
+                galleryContainer.innerHTML = "";
+                (artist.workImages || []).forEach(img => {
+                    const imageElement = document.createElement("img");
+                    imageElement.src = img;
+                    imageElement.alt = "Work Image";
+                    galleryContainer.appendChild(imageElement);
+                });
+            }
+        }
+
+        function saveProfile() {
+            // تجميع الخدمات المختارة
+            const selectedServices = [];
+            if (document.getElementById("eveningMakeup").checked) selectedServices.push("Evening Makeup");
+            if (document.getElementById("bridalMakeup").checked) selectedServices.push("Bridal Makeup");
+            if (document.getElementById("naturalLook").checked) selectedServices.push("Natural Look");
+
+            const artistProfile = {
+                name: document.getElementById("name").value,
+                description: document.getElementById("description").value,
+                services: selectedServices, // حفظ الخدمات كـ Array
+                whatsapp: document.getElementById("whatsapp").value,
+                instagram: document.getElementById("instagram").value,
+                workImages: Array.from(document.querySelectorAll("#galleryContainer img")).map(img => img.src)
+            };
+
+            // حفظ البيانات في Local Storage
+            localStorage.setItem("artistProfile", JSON.stringify(artistProfile));
+
+            alert("Profile saved successfully!");
+        }
+
+        function addWorkImage() {
+            const newImage = document.getElementById("newWorkImage").value;
+            if (newImage) {
+                const galleryContainer = document.getElementById("galleryContainer");
+                const imageElement = document.createElement("img");
+                imageElement.src = newImage;
+                imageElement.alt = "New Work Image";
+                galleryContainer.appendChild(imageElement);
+
+                // حفظ الصور في Local Storage
+                const savedProfile = JSON.parse(localStorage.getItem("artistProfile")) || {};
+                savedProfile.workImages = savedProfile.workImages || [];
+                savedProfile.workImages.push(newImage);
+                localStorage.setItem("artistProfile", JSON.stringify(savedProfile));
+
+                document.getElementById("newWorkImage").value = "";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadArtistProfile);
+    </script>
+
+</body>
+</html>
