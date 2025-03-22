@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Signup.css">
+    <script src="SignUp.js"></script>
+    <title>Sign-up Page</title>
+</head>
+<body>
+
+    <!-- Logo at the top -->
+    <div class="logo-container">
+        <img src="logo2-removebg-preview.png" alt="Logo">
+    </div>
+
+    <!-- Form Container -->
+    <form id="UserForm">
+        <div class="form-group">
+            <label for="FullName">Name:</label>
+            <input type="text" id="FullName" placeholder="Your Name..">
+        </div>
+        <div class="form-group">
+            <label for="Email">Email:</label>
+            <input type="email" id="Email" placeholder="Your Email..">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Your password..">
+        </div>
+        <div class="form-group">
+            <label for="phoneNum">Phone Number:</label>
+            <input type="tel" id="phoneNum" placeholder="Your Phone Number..">
+        </div>
+
+        <!-- Role Selection Inside the Form -->
+        <div class="rolesholder">
+            <label class="roles">Your role: </label>
+            <label class="roles">
+                <input type="radio" name="role" value="Client" checked>Client
+            </label>
+            <label class="roles">
+                <input type="radio" name="role" value="MakeupArtist">Makeup Artist
+            </label>
+        </div>
+
+        <button class="signup" type="button" onclick="validateForm()">Sign-up</button>
+    </form>
+
+</body>
+</html>
