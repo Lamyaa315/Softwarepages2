@@ -1,15 +1,11 @@
-﻿* {
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Times New Roman', Times, serif;
 }
 
-body {
-    background-color: whitesmoke;
-    color: #95775e;
-    line-height: 1.6;
-}
+
 html, body{
     height:100%;
     margin:0;
@@ -82,12 +78,11 @@ nav ul {
 footer {
     text-align: center;
     padding: 20px;
-    //position: absolute;
     bottom: 0;
     left:0;
     padding:10px 0;
     width: 100%;
-    position; fixed;
+   
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
