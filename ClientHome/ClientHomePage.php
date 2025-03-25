@@ -1,4 +1,14 @@
+<?php
+session_start();
+include 'config.php';
 
+if (!isset($_SESSION['ClientID'])) {
+    header("Location: Login/Login.php");
+    exit();
+}
+
+$clientID = $_SESSION['ClientID']
+?>
 
 <!DOCTYPE html>
 <html lang="ar">
@@ -18,27 +28,48 @@
         </div>
         <nav class="navigation">
             <ul>
-                <li><a href="ClientHomePage.html">Home</a></li>
+                <li><a href="ClientHomePage.php">Home</a></li>
                 <li><a href="tips.html">Beauty Tips</a></li>
-                <li><a href="CAppointment.html">Reservations</a></li>
-                <li><a href="MakeupArtistList.html">Makeup Artists</a></li>
-                <li><a href="WelcomePage.html" class="signout">Signout</a></li>
+                <li><a href="CAppointment.php">Reservations</a></li>
+                <li><a href="MakeupArtistList.php">Makeup Artists</a></li>
+                <li><a href="logout.php" class="signout">Signout</a></li>
             </ul>
         </nav>
     </header>
 
-
+    
+    <?php 
+    
+    $sql = "SELECT art.Name, res.Date, res.Time, res.Status
+        FROM reservation res
+        JOIN makeup atrist art ON res.ArtistID = art.ArtistID
+        WHERE res.ClientID = $clientID
+            AND res.Date >= CURDATE()
+            ORDER BY res.Date ASC, res.Time ASC
+            LIMIT 1";
+    
+    $result = mysqli_query($conn , $sql);
+    
+    $reservation = mysqli_fetch_assoc($result);
+    
+    ?>
+    
     <!-- Upcoming Reservations Section -->
     <section class="reservations">
 
         <h2>Your Upcoming Reservations</h2>
         <div class="reservation">
+            <?php if($reservation){ ?>
             <ul>
-                <li><strong>Artist:</strong> Sara Ahmed</li>
-                <li><strong>Date:</strong> 1/5/2025</li>
-                <li><strong>Time:</strong> 6:00 PM</li>
-                <li><strong>Status:</strong> <span class="confirmed">Confirmed</span></li>
+                <li><strong>Artist:</strong> <?php echo $reservation['Name']; ?></li>
+                <li><strong>Date:</strong> <?php echo $reservation['Date']; ?></li>
+                <li><strong>Time:</strong> <?php echo $reservation['Time']; ?></li>
+                <li><strong>Status:</strong> <span class="confirmed"><?php echo $reservation['Status']; ?></span></li>
             </ul>
+            <?php } 
+             else{
+                 echo "No Upcoming Reservations"; 
+             }?>
         </div>
     </section>
 
@@ -101,4 +132,4 @@
 
 
 
-</html>
+

@@ -48,7 +48,7 @@ $result = mysqli_query($conn, $sql);
                 <li><a href="tips.html">Beauty Tips</a></li>
                 <li><a href="CAppointment.html">Reservations</a></li>
                 <li><a href="MakeupArtistList.html">Makeup Artists</a></li>
-                <li><a href="WelcomePage.html" class="signout">Signout</a></li>
+                <li><a href="logout.php" class="signout">Signout</a></li>
             </ul>
         </nav>
     </header>
