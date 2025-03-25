@@ -132,5 +132,25 @@ footer p {
 }
 
   
+.work-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.work-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #95775e;
+    transition: transform 0.3s ease-in-out;
+}
+
+.work-image:hover {
+    transform: scale(1.1);
+}
 
   
