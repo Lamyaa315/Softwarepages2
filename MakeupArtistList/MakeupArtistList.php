@@ -9,7 +9,7 @@ if (!isset($_SESSION['ClientID'])) {
     exit();
 }
 
-$clientID = $_SESSION['ClientID']
+$clientID = $_SESSION['ClientID'];
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +28,7 @@ $clientID = $_SESSION['ClientID']
     <nav class="navigation">
         <ul>
             <li><a href="ClientHomePage.php">Home</a></li>
-                <li><a href="php.html">Beauty Tips</a></li>
+                <li><a href="php.php">Beauty Tips</a></li>
                 <li><a href="CAppointment.php">Reservations</a></li>
                 <li><a href="MakeupArtistList.php">Makeup Artists</a></li>
                 <li><a href="logout.php" class="signout">Signout</a></li>
@@ -43,7 +43,7 @@ $clientID = $_SESSION['ClientID']
 
       <?php 
       
-      $sql = "SELECT * From makeup atrist";
+      $sql = "SELECT ArtistID, Name, Services, Profile, InstagramAccount, work FROM 'makeup atrist' ";
       
       $result = mysqli_query($conn , $sql);
      
@@ -55,6 +55,7 @@ $clientID = $_SESSION['ClientID']
         <?php
         if (mysqli_num_rows($result) > 0) {
             while ($artist = mysqli_fetch_assoc($result)) {
+                $workImages = json_decode($artist['work'], true);
                 echo "
                 <div class ='artist'>
                     <a href='MakeUpArtist.php?ArtistID={$artist['ArtistID']}'>
@@ -65,16 +66,29 @@ $clientID = $_SESSION['ClientID']
                         <h3>{$artist['Name']}</h3>
                         <p><strong>Services:</strong> {$artist['Services']}</p>
                         <p><a href='{$artist['InstagramAccount']}' target='_blank'>Instagram</a></p>
+                        
+                    <h4>My Work</h4>
+                        <div class='work-gallery'>";
+                
+                // عرض كل الصور من JSON
+                if (!empty($workImages)) {
+                    foreach ($workImages as $image) {
+                        echo "<img src='$image' alt='Work Image' class='work-image'>";
+                    }
+                } else {
+                    echo "<p>No work images available.</p>";
+                }
+
+                echo "</div>
                     </div>
                 </div>";
             }
-            } else {
-                echo "<p style='text-align: center; font-size: 18px; color: red;'>No makeup artists found.</p>";
-            }
-                
-            ?>
+        } else {
+            echo "<p style='text-align: center; font-size: 18px; color: red;'>No makeup artists found.</p>";
+        }
+        ?>
     </div>
-  </main>
+</main>
 
   <footer>
     <p>&copy; 2025 رواء. All Rights Reserved.</p>
