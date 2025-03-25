@@ -1,3 +1,17 @@
+<?php
+
+session_star();
+
+include 'config.php';
+
+if (!isset($_SESSION['ClientID'])) {
+    header("Location: Login/Login.php");
+    exit();
+}
+
+$clientID = $_SESSION['ClientID']
+?>
+
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -13,10 +27,10 @@
     </div>
     <nav class="navigation">
         <ul>
-            <li><a href="ClientHomePage.html">Home</a></li>
-                <li><a href="tips.html">Beauty Tips</a></li>
-                <li><a href="CAppointment.html">Reservations</a></li>
-                <li><a href="MakeupArtistList.html">Makeup Artists</a></li>
+            <li><a href="ClientHomePage.php">Home</a></li>
+                <li><a href="php.html">Beauty Tips</a></li>
+                <li><a href="CAppointment.php">Reservations</a></li>
+                <li><a href="MakeupArtistList.php">Makeup Artists</a></li>
                 <li><a href="logout.php" class="signout">Signout</a></li>
         </ul>
     </nav>
@@ -27,8 +41,38 @@
         <input type="text" id="search" placeholder="Search for an artist..." onkeyup="filterArtists()">
     </div>
 
+      <?php 
+      
+      $sql = "SELECT * From makeup atrist";
+      
+      $result = mysqli_query($conn , $sql);
+     
+      ?>
+      
+      
     <div class="grid-container" id="artistList">
         <!-- سيتم تحميل الفنانات هنا -->
+        <?php
+        if (mysqli_num_rows($result) > 0) {
+            while ($artist = mysqli_fetch_assoc($result)) {
+                echo "
+                <div class ='artist'>
+                    <a href='MakeUpArtist.php?ArtistID={$artist['ArtistID']}'>
+                        <img src='{$artist['Profile']}' alt='{$artist['Name']}'>
+                    </a>
+                            
+                    <div class='text'>
+                        <h3>{$artist['Name']}</h3>
+                        <p><strong>Services:</strong> {$artist['Services']}</p>
+                        <p><a href='{$artist['InstagramAccount']}' target='_blank'>Instagram</a></p>
+                    </div>
+                </div>";
+            }
+            } else {
+                echo "<p style='text-align: center; font-size: 18px; color: red;'>No makeup artists found.</p>";
+            }
+                
+            ?>
     </div>
   </main>
 
@@ -36,92 +80,6 @@
     <p>&copy; 2025 رواء. All Rights Reserved.</p>
   </footer>
 
-  <script>
-    const artists = [
-        {
-            id: 1,
-            name: "Wafa Alharbi",
-            image: "wafa.jpg",
-            description: "Professional makeup artist",
-            services: ["Evening Makeup - 300 SAR", "Bridal Makeup - 1000 SAR"],
-            workImages: ["images/w1.jpg", "images/w2.jpg", "images/w3.jpg"],
-            whatsapp: "https://wa.me/966532892021",
-            instagram: "https://instagram.com/wafa_artist11"
-        },
-        {
-            id: 2,
-            name: "Ghzlan",
-            image: "images/g.jpg",
-            description: "Expert in natural and glam looks",
-            services: ["Evening Makeup - 250 SAR", "Bridal Makeup - 750 SAR"],
-            workImages: ["images/g1.jpg", "images/g2.jpg", "images/g3.jpg"],
-            whatsapp: "https://wa.me/966502596924",
-            instagram: "https://instagram.com/glambyghzlan"
-        },
-        {
-            id: 3,
-            name: "Eman Makeup",
-            image: "images/e.jpg",
-            description: "Certified bridal makeup specialist",
-            services: ["Evening Makeup - 400 SAR", "Bridal Makeup - 1500 SAR"],
-            workImages: ["images/e1.jpg", "images/e2.jpg", "images/e3.jpg"],
-            whatsapp: "https://wa.me/966599778821",
-            instagram: "https://instagram.com/eman.makeup.artist.1"
-        }
-    ];
-
-    function loadArtists() {
-        const container = document.getElementById("artistList");
-        container.innerHTML = "";
-        
-        artists.forEach(artist => {
-            const artistCard = `
-                <div class="artist">
-                    <a href="MakeUpArtist.html?id=${artist.id}"> 
-                        <img src="${artist.image}" alt="${artist.name}"> 
-                    </a> 
-                    <div class="text">
-                        <h3>${artist.name}</h3> 
-                        <p class="disc">${artist.description}</p>
-                        <p><strong>Services:</strong> ${artist.services.join("<br>")}</p>
-                    </div>
-                </div>
-            `;
-            container.innerHTML += artistCard;
-        });
-    }
-
-    function filterArtists() {
-        const searchValue = document.getElementById("search").value.toLowerCase();
-        const container = document.getElementById("artistList");
-        container.innerHTML = "";
-
-        const filteredArtists = artists.filter(artist => artist.name.toLowerCase().includes(searchValue));
-
-        if (filteredArtists.length === 0) {
-            container.innerHTML = `<p style="text-align: center; font-size: 18px; color: red;">No makeup artist found with this name.</p>`;
-            return;
-        }
-
-        filteredArtists.forEach(artist => {
-            const artistCard = `
-                <div class="artist">
-                    <a href="MakeUpArtist.html?id=${artist.id}"> 
-                        <img src="${artist.image}" alt="${artist.name}"> 
-                    </a> 
-                    <div class="text">
-                        <h3>${artist.name}</h3> 
-                        <p class="disc">${artist.description}</p>
-                        <p><strong>Services:</strong> ${artist.services.join(", ")}</p>
-                    </div>
-                </div>
-            `;
-            container.innerHTML += artistCard;
-        });
-    }
-
-    document.addEventListener("DOMContentLoaded", loadArtists);
-  </script>
 </body>
 </html>
 
