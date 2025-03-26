@@ -27,10 +27,10 @@ $clientID = $_SESSION['ClientID'];
     </div>
     <nav class="navigation">
         <ul>
-            <li><a href="ClientHomePage.php">Home</a></li>
-                <li><a href="php.php">Beauty Tips</a></li>
-                <li><a href="CAppointment.php">Reservations</a></li>
-                <li><a href="MakeupArtistList.php">Makeup Artists</a></li>
+            <li><a href="ClientHome/ClientHomePage.php">Home</a></li>
+                <li><a href="tips/tips.php">Beauty Tips</a></li>
+                <li><a href="CAppointment/CAppointment.php">Reservations</a></li>
+                <li><a href="MakeupArtistList/MakeupArtistList.php">Makeup Artists</a></li>
                 <li><a href="logout.php" class="signout">Signout</a></li>
         </ul>
     </nav>
