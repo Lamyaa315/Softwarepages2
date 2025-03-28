@@ -1,22 +1,23 @@
 <?php
-session_start();
+//session_start();
 $host = "localhost";
 $user = "root";
 $password = "root";
 $database = "ruwaa";
 
-$conn = mysqli_connect($host, $user, $password, $database);
+$conn = mysqli_connect($host, $user, $password, $database, 8889);
 
 if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
 }
 
-if (!isset($_SESSION['ClientID'])) {
-    header("Location: Login/Login.php");
-    exit();
-}
+//if (!isset($_SESSION['ClientID'])) {
+//    header("Location: Login/Login.php");
+//    exit();
+//}
 
-$clientID = $_SESSION['ClientID'];
+//$clientID = $_SESSION['ClientID'];
+$clientID = 111;
 
 $sql = "SELECT reservation.Date, reservation.Time, reservation.Status, reservation.Service, `makeup artist`.Name AS ArtistName
         FROM reservation
@@ -33,15 +34,15 @@ $result = mysqli_query($conn, $sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Appointments</title>
-    <link rel="stylesheet" href="General.css">
+    <link rel="stylesheet" href="../General.css">
     <link rel="stylesheet" href="customer_styles.css">
-    <script src="FilterScript.js" defer></script>
+    <script src="../FilterScript.js" defer></script>
 </head>
 <body>
     <header>
         <div class="logo">
-            <img src="logo2.jpg" alt="رواء Logo">
-        </div>
+            <img src="../images/logo2.jpg" alt="رواء Logo">
+        </div> 
         <nav class="navigation">
             <ul>
                 <li><a href="ClientHomePage.html">Home</a></li>
@@ -58,10 +59,10 @@ $result = mysqli_query($conn, $sql);
             <label for="sortStatus"><strong>Filter by Status:</strong></label>
             <select id="sortStatus" onchange="sortAppointmentsByStatus()">
                 <option value="all">All Statuses</option>
-                <option value="active">Active</option>
+                <!--<option value="active">Active</option>-->
                 <option value="pending">Pending</option>
                 <option value="completed">Completed</option>
-                <option value="canceled">Canceled</option>
+                <option value="cancelled">Cancelled</option>
             </select>
         </div>
         <section class="appointments container">

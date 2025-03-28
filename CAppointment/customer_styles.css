@@ -22,7 +22,7 @@ th, td {
     color: orange;
     font-weight: bold;
 }
-.status.canceled {
+.status.cancelled {
     color: darkred;
     font-weight: bold;
 }
