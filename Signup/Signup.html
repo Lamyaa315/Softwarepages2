@@ -15,37 +15,35 @@
     </div>
 
     <!-- Form Container -->
-    <form id="UserForm">
-        <div class="form-group">
-            <label for="FullName">Name:</label>
-            <input type="text" id="FullName" placeholder="Your Name..">
-        </div>
-        <div class="form-group">
-            <label for="Email">Email:</label>
-            <input type="email" id="Email" placeholder="Your Email..">
-        </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Your password..">
-        </div>
-        <div class="form-group">
-            <label for="phoneNum">Phone Number:</label>
-            <input type="tel" id="phoneNum" placeholder="Your Phone Number..">
-        </div>
+   <form id="UserForm" action="Signup.php" method="POST">
+    <div class="form-group">
+        <label for="FullName">Name:</label>
+        <input type="text" id="FullName" name="FullName" placeholder="Your Name..">
+    </div>
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <input type="email" id="Email" name="Email" placeholder="Your Email..">
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Your password..">
+    </div>
+    <div class="form-group">
+        <label for="phoneNum">Phone Number:</label>
+        <input type="tel" id="phoneNum" name="phoneNum" placeholder="Your Phone Number..">
+    </div>
 
-        <!-- Role Selection Inside the Form -->
-        <div class="rolesholder">
-            <label class="roles">Your role: </label>
-            <label class="roles">
-                <input type="radio" name="role" value="Client" checked>Client
-            </label>
-            <label class="roles">
-                <input type="radio" name="role" value="MakeupArtist">Makeup Artist
-            </label>
-        </div>
+    <div class="rolesholder">
+        <label class="roles">Your role: </label>
+        <label class="roles">
+            <input type="radio" name="role" value="Client" checked>Client
+        </label>
+        <label class="roles">
+            <input type="radio" name="role" value="MakeupArtist">Makeup Artist
+        </label>
+    </div>
 
-        <button class="signup" type="button" onclick="validateForm()">Sign-up</button>
+    <button class="signup" type="submit">Sign-up</button>
     </form>
-
 </body>
 </html>
