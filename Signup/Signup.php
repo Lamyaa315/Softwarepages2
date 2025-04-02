@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $servername = "localhost";
 $username = "root"; // Default for MAMP
 $password = "root"; // Default for MAMP
@@ -44,6 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . mysqli_error($conn);
     }
 }
+
+$_SESSION["artist_id"] = $row["ArtistID"]; // بعد التحقق من المستخدم
+
 ?>
 
 

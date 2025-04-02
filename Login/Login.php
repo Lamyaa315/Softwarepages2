@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+
+
 $servername = "localhost";
 $username = "root";
 $password = "root";
@@ -40,6 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $loginError = "!البريد الإلكتروني غير صحيح";
     }
 }
+
+$_SESSION["artist_id"] = $row["ArtistID"]; // بعد التحقق من المستخدم
+
 ?>
 
 <!DOCTYPE html>
