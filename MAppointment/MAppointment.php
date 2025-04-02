@@ -1,22 +1,23 @@
 <?php
-session_start();
+//session_start();
 $host = "localhost";
 $user = "root";
 $password = "root";
 $database = "ruwaa";
 
-$conn = mysqli_connect($host, $user, $password, $database);
+$conn = mysqli_connect($host, $user, $password, $database,8889);
 
 if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
 }
 
-if (!isset($_SESSION['ArtistID'])) {
-    header("Location: login/login.php");
-    exit();
-}
+//if (!isset($_SESSION['ArtistID'])) {
+//    header("Location: login/login.php");
+//    exit();
+//}
 
-$artistID = $_SESSION['ArtistID'];
+//$artistID = $_SESSION['ArtistID'];
+$artistID = 3;
 
 // Get all reservations for this makeup artist
 $sql = "SELECT reservation.Date, reservation.Time, reservation.Status, reservation.Service, client.Name AS ClientName
@@ -33,14 +34,14 @@ $result = mysqli_query($conn, $sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Appointments</title>
-    <link rel="stylesheet" href="General.css">
+    <link rel="stylesheet" href="../General.css">
     <link rel="stylesheet" href="artist_styles.css">
-    <script src="FilterScript.js" defer></script>
+    <script src="../FilterScript.js" defer></script>
 </head>
 <body>
     <header>
         <div class="logo">
-            <img src="logo2.jpg" alt="رواء Logo">
+            <img src="../images/logo2.jpg" alt="رواء Logo">
         </div>
         <nav class="navigation">
             <ul>
