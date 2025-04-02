@@ -56,7 +56,7 @@ $_SESSION["artist_id"] = $row["ArtistID"]; // بعد التحقق من المس�
     <title>Login Page</title>
 </head>
 <body>
-    <img src="logo2-removebg-preview.png" alt="Logo" class="logo">
+    <img src="../images/logo2-removebg-preview.png" alt="Logo" class="logo">
 
     <div class="tabs">
         <a href="#" class="active">Login</a>
