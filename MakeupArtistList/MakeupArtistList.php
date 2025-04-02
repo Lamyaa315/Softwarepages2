@@ -2,14 +2,27 @@
 
 session_start();
 
-include 'config.php';
+include '../config.php';
 
-if (!isset($_SESSION['ClientID'])) {
+ if (!isset($_SESSION['ClientID'])) {
     header("Location: Login/Login.php");
     exit();
 }
 
-$clientID = $_SESSION['ClientID'];
+$clientID = $_SESSION['ClientID']; 
+
+
+
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+$sql = "SELECT ArtistID, Name, Services, Profile, PhoneNumber, InstagramAccount, work, price FROM makeup_artist";
+
+if (!empty($search)) {
+    $sql .= " WHERE Name LIKE '%$search%' OR Services LIKE '%$search%'";
+}
+
+$result = mysqli_query($conn, $sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -18,12 +31,13 @@ $clientID = $_SESSION['ClientID'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Makeup Artists</title>
+    <link rel="stylesheet" href="../General.css">
     <link rel="stylesheet" href="MakeupArtistList.css">
 </head>
 <body>
   <header>
     <div class="logo">
-        <img src="logo2.jpg" alt="رواء Logo">
+        <img src="../images/logo2.jpg" alt="رواء Logo">
     </div>
     <nav class="navigation">
         <ul>
@@ -38,17 +52,13 @@ $clientID = $_SESSION['ClientID'];
 
   <main>
     <div class="search-filter">
-        <input type="text" id="search" placeholder="Search for an artist..." onkeyup="filterArtists()">
+        <form method="GET" action="">
+            <input type="text" name="search" placeholder="Search for an artist..." value="<?php echo $search; ?>">
+            <button type="submit">Search</button>
+        </form>
     </div>
 
-      <?php 
-      
-      $sql = "SELECT ArtistID, Name, Services, Profile, InstagramAccount, work FROM 'makeup atrist' ";
-      
-      $result = mysqli_query($conn , $sql);
      
-      ?>
-      
       
     <div class="grid-container" id="artistList">
         <!-- سيتم تحميل الفنانات هنا -->
@@ -59,13 +69,13 @@ $clientID = $_SESSION['ClientID'];
                 echo "
                 <div class ='artist'>
                     <a href='MakeUpArtist.php?ArtistID={$artist['ArtistID']}'>
-                        <img src='{$artist['Profile']}' alt='{$artist['Name']}'>
+                        <img src='../images/{$artist['Profile']}' alt='{$artist['Name']}'>
                     </a>
                             
                     <div class='text'>
                         <h3>{$artist['Name']}</h3>
-                        <p><strong>Services:</strong> {$artist['Services']}</p>
-                        <p><a href='{$artist['InstagramAccount']}' target='_blank'>Instagram</a></p>
+                       <p><strong>Services:</strong> {$artist['Services']} - {$artist['price']}</p>
+                        
                         
                     <h4>My Work</h4>
                         <div class='work-gallery'>";
@@ -73,13 +83,18 @@ $clientID = $_SESSION['ClientID'];
                 // عرض كل الصور من JSON
                 if (!empty($workImages)) {
                     foreach ($workImages as $image) {
-                        echo "<img src='$image' alt='Work Image' class='work-image'>";
+                        echo "<img src='../images/$image' alt='Work Image' class='work-image'>";
                     }
                 } else {
                     echo "<p>No work images available.</p>";
                 }
 
                 echo "</div>
+                    <div class='contact'>
+                    <p> For Contact: </p>
+                    <p><a href='{$artist['InstagramAccount']}' target='_blank'>• Instagram</a></p>
+                        <p><a href='{$artist['PhoneNumber']}' target='_blank'>• WhatsApp</a></p>
+                            </div>
                     </div>
                 </div>";
             }

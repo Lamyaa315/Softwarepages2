@@ -1,13 +1,15 @@
 <?php
 session_start();
-include 'config.php';
+include '../config.php';
 
 if (!isset($_SESSION['ClientID'])) {
-    header("Location: Login/Login.php");
+    header("Location: Login/Login.php"); 
     exit();
 }
 
-$clientID = $_SESSION['ClientID']
+$clientID = $_SESSION['ClientID'] 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +18,7 @@ $clientID = $_SESSION['ClientID']
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-    <link rel="stylesheet" href="General.css">
+    <link rel="stylesheet" href="../General.css">
     <link rel="stylesheet" href="ClientHomePage.css">
 </head>
 
@@ -24,15 +26,15 @@ $clientID = $_SESSION['ClientID']
     <!-- Header Section -->
     <header>
         <div class="logo">
-            <img src="logo2.jpg" alt="رواء Logo">
+            <img src="../images/logo2.jpg" alt="رواء Logo">
         </div>
         <nav class="navigation">
             <ul>
                 <li><a href="ClientHomePage.php">Home</a></li>
-                <li><a href="tips.html">Beauty Tips</a></li>
-                <li><a href="CAppointment.php">Reservations</a></li>
-                <li><a href="MakeupArtistList.php">Makeup Artists</a></li>
-                <li><a href="logout.php" class="signout">Signout</a></li>
+                <li><a href="../tips/tips.php">Beauty Tips</a></li>
+                <li><a href="../CAppointment/CAppointment.php">Reservations</a></li>
+                <li><a href="../MakeupArtistList/MakeupArtistList.php">Makeup Artists</a></li>
+                <li><a href="../logout.php" class="signout">Signout</a></li>
             </ul>
         </nav>
     </header>
@@ -42,7 +44,7 @@ $clientID = $_SESSION['ClientID']
     
     $sql = "SELECT art.Name, res.Date, res.Time, res.Status
         FROM reservation res
-        JOIN makeup atrist art ON res.ArtistID = art.ArtistID
+        JOIN `makeup_artist` art ON res.ArtistID = art.ArtistID
         WHERE res.ClientID = $clientID
             AND res.Date >= CURDATE()
             ORDER BY res.Date ASC, res.Time ASC
@@ -57,7 +59,7 @@ $clientID = $_SESSION['ClientID']
     <!-- Upcoming Reservations Section -->
     <section class="reservations">
 
-        <h2>Your Upcoming Reservations</h2>
+        <h2>Your Upcoming Reservation</h2>
         <div class="reservation">
             <?php if($reservation){ ?>
             <ul>
@@ -79,17 +81,17 @@ $clientID = $_SESSION['ClientID']
 
         <div class="about-images">
             <div class="about-card">
-                <img src="images\About.jpg" alt="Easy Booking">
+                <img src="../images/About.jpg" alt="Easy Booking">
                 <h3>Easy Booking</h3>
                 <p>Schedule your appointments effortlessly with our user-friendly platform.</p>
             </div>
             <div class="about-card">
-                <img src="images\About2.jpg" alt="Professional Beauty Services">
+                <img src="../images/About2.jpg" alt="Professional Beauty Services">
                 <h3>Professional Services</h3>
                 <p>Find top-rated beauty professionals for weddings, parties, and everyday looks.</p>
             </div>
             <div class="about-card">
-                <img src="images\About4.jpg" alt="User-Friendly Experience">
+                <img src="../images/About4.jpg" alt="User-Friendly Experience">
                 <h3>Convenient Experience</h3>
                 <p>Enjoy a smooth and stress-free beauty service tailored to your needs.</p>
             </div>

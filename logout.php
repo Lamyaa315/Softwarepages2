@@ -4,7 +4,7 @@ session_start();
 
 session_destroy();
 
-header("Location:WelcomePage.php" );
+header("Location: Welcome/WelcomePage.php" );
 
 exit();
 
