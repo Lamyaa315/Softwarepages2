@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($role === "MakeupArtist") {
     header("Location: http://localhost/Softwarepages2/MAHome/MAHomePage.html");
 } elseif ($role === "Client") {
-    header("Location: http://localhost/Softwarepages2/ClientHome/ClientHomePage.php");
+    header("Location: http://localhost/Softwarepages2/ClientHome/ClientHomePage.html");
 } else {
     $loginError = "Invalid user role!";
 }
