@@ -11,13 +11,13 @@ if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
 }
 
-//if (!isset($_SESSION['ClientID'])) {
-//    header("Location: Login/Login.php");
-//    exit();
-//}
+if (!isset($_SESSION['ClientID'])) {
+    header("Location: Login/Login.php");
+    exit();
+}
 
-//$clientID = $_SESSION['ClientID'];
-$clientID = 111;
+$clientID = $_SESSION['ClientID'];
+
 
 $sql = "SELECT reservation.Date, reservation.Time, reservation.Status, reservation.Service, `makeup artist`.Name AS ArtistName
         FROM reservation

@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+
+
 $servername = "localhost";
 $username = "root";
 $password = "root";
@@ -40,6 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $loginError = "!البريد الإلكتروني غير صحيح";
     }
 }
+
+$_SESSION["artist_id"] = $row["ArtistID"]; // بعد التحقق من المستخدم
+
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Login Page</title>
 </head>
 <body>
-    <img src="logo2-removebg-preview.png" alt="Logo" class="logo">
+    <img src="../images/logo2-removebg-preview.png" alt="Logo" class="logo">
 
     <div class="tabs">
         <a href="#" class="active">Login</a>

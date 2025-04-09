@@ -84,7 +84,7 @@ footer p {
     color: white;
 }
 
-/* تحسين التخطيط باستخدام Grid */
+
 .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -92,7 +92,7 @@ footer p {
     padding: 5%;
 }
 
-/* تنسيق كرت الميكب آرتست */
+
 .artist {
     display: flex;
     flex-direction: column;
@@ -114,7 +114,7 @@ footer p {
     border-radius: 15px;
 }
 
-/* تحسين شكل النص */
+
 .artist .text {
     padding: 10px;
 }
@@ -133,24 +133,30 @@ footer p {
 
   
 .work-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 10px; 
     justify-content: center;
-    margin-top: 10px;
+    padding: 10px;
 }
 
 .work-image {
-    width: 120px;
-    height: 120px;
+    width: 100px; 
+    height: 100px; 
+    aspect-ratio: 1 / 1; 
     object-fit: cover;
     border-radius: 10px;
-    border: 2px solid #95775e;
+    border: 3px solid #95775e;
     transition: transform 0.3s ease-in-out;
 }
 
 .work-image:hover {
     transform: scale(1.1);
 }
+
+.contact {
+    text-align:left;
+}
+
 
   

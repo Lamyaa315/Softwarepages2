@@ -5,19 +5,19 @@ $user = "root";
 $password = "root";
 $database = "ruwaa";
 
-$conn = mysqli_connect($host, $user, $password, $database,8889);
+$conn = mysqli_connect($host, $user, $password, $database,8888);
 
 if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
 }
 
-//if (!isset($_SESSION['ArtistID'])) {
-//    header("Location: login/login.php");
-//    exit();
-//}
+if (!isset($_SESSION['ArtistID'])) {
+    header("Location: login/login.php");
+   exit();
+}
 
-//$artistID = $_SESSION['ArtistID'];
-$artistID = 3;
+$artistID = $_SESSION['ArtistID'];
+//$artistID = 3;
 
 // Get all reservations for this makeup artist
 $sql = "SELECT reservation.Date, reservation.Time, reservation.Status, reservation.Service, client.Name AS ClientName
