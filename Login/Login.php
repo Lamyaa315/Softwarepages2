@@ -6,7 +6,7 @@ $username = "root";
 $password = "root";
 $database = "ruwaa";
 
-$conn = mysqli_connect($servername, $username, $password, $database,8889);
+$conn = mysqli_connect($servername, $username, $password, $database);
 $loginError = "";
 
 if (!$conn) {
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     header("Location: http://localhost/Softwarepages2/ClientHome/ClientHomePage.html");
                 } else {
                     $_SESSION['artist_id'] = $user["ArtistID"] ?? null;
-                    header("Location: http://localhost/Softwarepages2/MAHome/MAHomePage.html");
+                    header("Location: http://localhost/Softwarepages2/MAHome/MAHomePage.php");
                 }
                 exit;
             } else {
