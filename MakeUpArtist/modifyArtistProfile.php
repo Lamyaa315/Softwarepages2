@@ -1,157 +1,137 @@
 <?php
-
-
 session_start();
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+<<<<<<< Updated upstream:MakeUpArtist/modifyArtistProfile.php
 $conn = mysqli_connect("localhost","root" , "root", "ruwaa" , 8889);
 
 // لتظهر الأخطاء في الصفحة
 
+=======
+$conn = mysqli_connect("localhost", "root", "root", "ruwaa", 8889);
+>>>>>>> Stashed changes:MakeUpAtrist/modifyArtistProfile.php
 
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// تحقق من وجود artist_id في الجلسة
 if (!isset($_SESSION["artist_id"])) {
-    http_response_code(403);
-    echo "Unauthorized access";
-    exit();
+    die("Unauthorized access");
 }
 
 $artist_id = $_SESSION["artist_id"];
+$message = "";
 
-// استلام البيانات من الطلب
-$data = json_decode(file_get_contents("php://input"), true);
+// إذا المستخدم ضغط حفظ
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $name = $_POST["Name"] ?? "";
+    $description = $_POST["Description"] ?? "";
+    $whatsapp = $_POST["PhoneNumber"] ?? "";
+    $instagram = $_POST["InstagramAccount"] ?? "";
+    $price = $_POST["price"] ?? null;
+    $services = isset($_POST["Services"]) ? json_encode($_POST["Services"]) : json_encode([]);
+    $workImages = isset($_POST["work"]) ? json_encode($_POST["work"]) : json_encode([]);
 
-if (!$data) {
-    http_response_code(400);
-    echo "Invalid input";
-    exit();
+    // معالجة صورة البروفايل
+    $profileImagePath = $artist['Profile'] ?? null; // احتفظ بالصورة القديمة إذا ما تم الرفع
+    if (isset($_FILES['Profile']) && $_FILES['Profile']['error'] === UPLOAD_ERR_OK) {
+        $profileTmp = $_FILES['Profile']['tmp_name'];
+        $profileName = basename($_FILES['Profile']['name']);
+        $uploadPath = 'images/' . $profileName;
+
+        // نقل الصورة إلى مجلد images
+        if (move_uploaded_file($profileTmp, $uploadPath)) {
+            $profileImagePath = $uploadPath;
+        }
+    }
+
+    $sql = "UPDATE `makeup atrist` 
+            SET Name = ?, Description = ?, PhoneNumber = ?, InstagramAccount = ?, Services = ?, work = ?, Profile = ?, price = ?
+            WHERE ArtistID = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssssssii", $name, $description, $whatsapp, $instagram, $services, $workImages, $profileImagePath, $price, $artist_id);
+
+    if ($stmt->execute()) {
+        $message = "Profile updated successfully";
+    } else {
+        $message = "Database error: " . $stmt->error;
+    }
 }
 
-// تجميع البيانات
-$name = $data["name"];
-$description = $data["description"];
-$whatsapp = $data["whatsapp"];
-$instagram = $data["instagram"];
-$services = json_encode($data["services"]);
-$workImages = json_encode($data["workImages"]);
+// جلب البيانات من قاعدة البيانات
+$stmt = $conn->prepare("SELECT * FROM `makeup atrist` WHERE ArtistID = ?");
+$stmt->bind_param("i", $artist_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$artist = $result->fetch_assoc();
 
-// تحديث البيانات في جدول البروفايل
-$sql = "UPDATE `makeup artist profile` 
-        SET name = ?, description = ?, whatsapp = ?, instagram = ?, services = ?, work_images = ?
-        WHERE id = ?";
-
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ssssssi", $name, $description, $whatsapp, $instagram, $services, $workImages, $artist_id);
-
-if ($stmt->execute()) {
-    echo "Profile updated successfully";
-} else {
-    http_response_code(500);
-    echo "Database error: " . $stmt->error;
+if (!$artist) {
+    die("Artist not found.");
 }
+
+$services = !empty($artist["Services"]) ? json_decode($artist["Services"], true) : [];
+$workImages = !empty($artist["work"]) ? json_decode($artist["work"], true) : [];
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile - Makeup Artist</title>
-    <link rel="stylesheet" href="General.css">
-    <script defer src="artists.js"></script>
+    <title>Edit Profile</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f8fa;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            position: relative;
-        }
-        .container {
-            max-width: 800px;
-            background: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            margin-top: 20px;
-            text-align: center;
-            flex-grow: 1;
-        }
-        .gallery img {
-            max-width: 100px;
-            margin: 5px;
-            border-radius: 5px;
-        }
-        .checkbox-group {
-            text-align: center;
-            margin: 10px auto;
-        }
+        body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+        .container { background: white; max-width: 700px; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input[type="text"], input[type="number"], textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        input[type="file"] { margin-top: 5px; }
+        .checkbox { margin-right: 10px; }
+        button { margin-top: 20px; padding: 10px 20px; background: #bfa380; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .success { color: green; }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="logo">
-            <img src="logo2.jpg" alt="رواء Logo">
-        </div>
-        <nav class="navigation">
-            <ul>
-                <li><a href="MAHomePage.html">Home</a></li>
-                <li><a href="MAppointment.html">Reservations</a></li>
-                <li><a href="modifyArtistProfile.html">Edit Profile</a></li>
-                <li><a href="logout.php" class="signout">Signout</a></li>
-            </ul>
-        </nav>
-    </header>
+<div class="container">
+    <h2>Edit Your Profile</h2>
 
-    <!-- Main Content -->
-    <div class="container" id="profileContainer">
-        <h1>Edit Your Profile</h1>
+    <?php if ($message): ?>
+        <p class="success"><?= htmlspecialchars($message) ?></p>
+    <?php endif; ?>
 
-        <label for="name">Name:</label>
-        <input type="text" id="name">
+    <form method="POST" action="" enctype="multipart/form-data">
+        <label>Name:</label>
+        <input type="text" name="Name" value="<?= htmlspecialchars($artist['Name'] ?? '') ?>">
 
-        <label for="description">Description:</label>
-        <textarea id="description"></textarea>
+        <label>Description:</label>
+        <textarea name="Description"><?= htmlspecialchars($artist['Description'] ?? '') ?></textarea>
 
-        <h2>My Work</h2>
-        <div class="gallery" id="galleryContainer"></div>
-        <input type="text" id="newWorkImage" placeholder="Add image URL">
-        <button onclick="addWorkImage()">Add Image</button>
+        <label>WhatsApp:</label>
+        <input type="text" name="PhoneNumber" value="<?= htmlspecialchars($artist['PhoneNumber'] ?? '') ?>">
 
-        <h2>Services</h2>
-        <div class="checkbox-group">
-           <label><input type="checkbox" id="eveningMakeup" value="Evening Makeup"> Evening Makeup</label>
-            <label><input type="checkbox" id="bridalMakeup" value="Bridal Makeup">  Bridal Makeup</label>
-        </div>
+        <label>Instagram:</label>
+        <input type="text" name="InstagramAccount" value="<?= htmlspecialchars($artist['InstagramAccount'] ?? '') ?>">
 
-        <h2>Contact</h2>
-        <label for="whatsapp">WhatsApp:</label>
-        <input type="text" id="whatsapp">
+        <label>Services:</label>
+        <label><input type="checkbox" class="checkbox" name="Services[]" value="Bridal Makeup" <?= in_array("Bridal Makeup", $services) ? "checked" : "" ?>> Bridal Makeup</label>
+        <label><input type="checkbox" class="checkbox" name="Services[]" value="Evening Makeup" <?= in_array("Evening Makeup", $services) ? "checked" : "" ?>> Evening Makeup</label>
 
-        <label for="instagram">Instagram:</label>
-        <input type="text" id="instagram"><br>
+        <label>Work Images (URLs):</label>
+        <?php foreach ($workImages as $img): ?>
+            <input type="text" name="work[]" value="<?= htmlspecialchars($img ?? '') ?>"><br>
+        <?php endforeach; ?>
+        <input type="text" name="work[]" placeholder="Add new image"><br>
 
-        <button class="save-button" onclick="saveProfile()">Save Changes</button>
-    </div>
+        <label>Profile Picture:</label>
+        <input type="file" name="Profile"><br>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 رواء. All Rights Reserved.</p>
-    </footer>
+        <label>Price:</label>
+        <input type="number" name="price" value="<?= htmlspecialchars($artist['price'] ?? '') ?>"><br>
 
-
+        <button type="submit">Save</button>
+    </form>
+</div>
 </body>
 </html>
