@@ -15,7 +15,7 @@ $clientID = $_SESSION['ClientID'];
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-$sql = "SELECT ArtistID, Name, Services, Profile, PhoneNumber, InstagramAccount, work, price FROM makeup_artist";
+$sql = "SELECT ArtistID, Name, Services, Profile, PhoneNumber, InstagramAccount, work, price FROM `makeup atrist`";
 
 if (!empty($search)) {
     $sql .= " WHERE Name LIKE '%$search%' OR Services LIKE '%$search%'";

@@ -1,12 +1,11 @@
 <?php
 // عرض الأخطاء للتصحيح
+session_start();
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-session_start();
 // الاتصال بقاعدة البيانات
-$artist_id = isset($_GET["ArtistID"]) ? intval($_GET["ArtistID"]) : 0;
 $servername = "localhost";
 $username = "root";
 $password = "root";
@@ -16,10 +15,14 @@ $conn = new mysqli($servername, $username, $password, $database,8889);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-//مدري اذا هذا$artist_id = $_SESSION["artist_id"];
+if (!isset($_GET['ArtistID'])) {
+    die("No artist selected.");
+}
+$artist_id = $_GET['ArtistID'];
+
 
 // استعلام لجلب بيانات الفنانة
-$stmt = $conn->prepare("SELECT * FROM `makeup artist profile` WHERE id = ?");
+$stmt = $conn->prepare("SELECT * FROM `makeup atrist` WHERE ArtistID = ?");
 $stmt->bind_param("i", $artist_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -29,8 +32,19 @@ if (!$artist) {
     die("Artist not found.");
 }
 
-$services = json_decode($artist["services"]);
-$workImages = json_decode($artist["work_images"]);
+$services_raw = $artist["Services"] ?? '';
+$services = [];
+
+if ($services_raw) {
+    if ($services_raw[0] === '[') {
+        // JSON array
+        $services = json_decode($services_raw, true);
+    } else {
+        // نص عادي مفصول بفواصل
+        $services = explode(',', $services_raw);
+    }
+}
+$workImages = json_decode($artist["work"]);
 ?>
 
 <!DOCTYPE html>
@@ -100,8 +114,8 @@ $workImages = json_decode($artist["work_images"]);
     </header>
 
     <div class="container" id="profileContainer">
-        <h1><?= htmlspecialchars($artist["name"]) ?></h1>
-        <p><?= htmlspecialchars($artist["description"]) ?></p>
+        <h1><?= htmlspecialchars($artist["Name"]) ?></h1>
+        <p><?= htmlspecialchars($artist["Description"]) ?></p>
 
         <h2>My Work</h2>
         <div class="gallery">
@@ -112,17 +126,22 @@ $workImages = json_decode($artist["work_images"]);
 
         <h2>Services</h2>
         <ul>
-            <?php foreach ($services as $service): ?>
-                <li><?= htmlspecialchars($service) ?></li>
-            <?php endforeach; ?>
+            <?php if (!empty($services)): ?>
+    <?php foreach ($services as $service): ?>
+        <li><?= htmlspecialchars($service) ?></li>
+    <?php endforeach; ?>
+<?php else: ?>
+    <li>No services listed.</li>
+<?php endif; ?>
+
         </ul>
 
         <button id="bookingButton" class="booking-button">Book Now</button>
 
         <h2>Contact Me</h2>
         <div class="contact">
-            <a href="<?= htmlspecialchars($artist["whatsapp"]) ?>">WhatsApp</a>
-            <a href="<?= htmlspecialchars($artist["instagram"]) ?>">Instagram</a>
+            <a href="<?= htmlspecialchars($artist["PhoneNumber"]) ?>">WhatsApp</a>
+            <a href="<?= htmlspecialchars($artist["InstagramAccount"]) ?>">Instagram</a>
         </div>
     </div>
 
@@ -134,12 +153,12 @@ $workImages = json_decode($artist["work_images"]);
         <label for="bookingTime">Select Time:</label>
         <input type="time" id="bookingTime"><br>
 
-        <label class="services">Choose Service: </label><br>
-        <label class="services">
-            <input type="radio" name="service" value="Evening"> Evening Makeup
+        <label class="Services">Choose Service: </label><br>
+        <label class="Services">
+            <input type="radio" name="Service" value="Evening"> Evening Makeup
         </label><br>
-        <label class="services">
-            <input type="radio" name="service" value="Bridal"> Bridal Makeup 
+        <label class="Services">
+            <input type="radio" name="Service" value="Bridal"> Bridal Makeup 
         </label><br>
 
         <button id="confirmBooking" class="booking-button">Confirm Booking</button>
