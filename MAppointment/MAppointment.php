@@ -2,13 +2,13 @@
 session_start();
 include("../config.php"); 
 
-//if (!isset($_SESSION['ArtistID'])) {
-//  header("Location: login/login.php");
-//  exit();
-//}
+if (!isset($_SESSION['ArtistID'])) {
+  header("Location: login/login.php");
+  exit();
+}
 
-//$artistID = $_SESSION['ArtistID'];
-$artistID = 3;
+$artistID = $_SESSION['ArtistID'];
+//$artistID = 3;
 
 // Get all reservations for this makeup artist
 $sql = "SELECT reservation.ReservationID, reservation.Date, reservation.Time, reservation.Status, reservation.Service, client.Name AS ClientName
