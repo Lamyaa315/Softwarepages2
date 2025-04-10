@@ -6,10 +6,8 @@ $username = "root";
 $password = "root";
 $database = "ruwaa";
 
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $database,8889);
-
-// Check connection
+// الاتصال
+$conn = mysqli_connect($servername, $username, $password, $database);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -17,29 +15,39 @@ if (!$conn) {
 $signupError = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST['FullName'] ?? '';
-    $email = $_POST['Email'] ?? '';
+    $name     = $_POST['FullName'] ?? '';
+    $email    = $_POST['Email'] ?? '';
     $password = $_POST['password'] ?? '';
-    $phone = $_POST['phoneNum'] ?? '';
-    $role = $_POST['role'] ?? '';
+    $phone    = $_POST['phoneNum'] ?? '';
+    $role     = $_POST['role'] ?? '';
 
     if (empty($name) || empty($email) || empty($password) || empty($phone) || empty($role)) {
         $signupError = "All fields are required!";
     } else {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $clientID = rand(1000, 9999); // You can switch to AUTO_INCREMENT if DB allows
 
-        $sql = "INSERT INTO client (`ClientID`, `Name`, `Email`, `Password`, `Phone Number`, `role`) 
-                VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = mysqli_prepare($conn, $sql);
+        if ($role === "Client") {
+            $clientID = rand(1000, 9999);  
+            $sql = "INSERT INTO client (`ClientID`, `Name`, `Email`, `Password`, `Phone Number`) 
+                    VALUES (?, ?, ?, ?, ?)";
+            $stmt = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt, "issss", $clientID, $name, $email, $hashedPassword, $phone);
+        } elseif ($role === "MakeupArtist") {
+            $artistID = rand(1000, 9999);  
+            $sql = "INSERT INTO `makeup atrist` (`ArtistID`, `Name`, `Email`, `Password`, `PhoneNumber`) 
+                    VALUES (?, ?, ?, ?, ?)";
+            $stmt = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt, "issss", $artistID, $name, $email, $hashedPassword, $phone);
+        } else {
+            $signupError = "Invalid role selected.";
+            $stmt = null;
+        }
 
         if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "isssss", $clientID, $name, $email, $hashedPassword, $phone, $role);
             if (mysqli_stmt_execute($stmt)) {
                 $_SESSION['user'] = [
                     'Name' => $name,
                     'Email' => $email,
-                    'role' => $role
                 ];
 
                 if ($role === "MakeupArtist") {
@@ -52,12 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $signupError = "Error during registration. Email may already be used.";
             }
             mysqli_stmt_close($stmt);
-        } else {
-            $signupError = "Database error: " . mysqli_error($conn);
         }
     }
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
