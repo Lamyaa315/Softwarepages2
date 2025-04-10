@@ -15,7 +15,7 @@ $clientID = $_SESSION['ClientID'];
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-$sql = "SELECT ArtistID, Name, Services, Profile, PhoneNumber, InstagramAccount, work, price FROM makeup_artist";
+$sql = "SELECT ArtistID, Name, Services, Profile, PhoneNumber, InstagramAccount, work, price FROM `makeup atrist`";
 
 if (!empty($search)) {
     $sql .= " WHERE Name LIKE '%$search%' OR Services LIKE '%$search%'";
@@ -65,39 +65,47 @@ $result = mysqli_query($conn, $sql);
         <?php
         if (mysqli_num_rows($result) > 0) {
             while ($artist = mysqli_fetch_assoc($result)) {
-                $workImages = json_decode($artist['work'], true);
-                echo "
-                <div class ='artist'>
-                    <a href='../MakeUpAtrist/MakeUpArtist.php?ArtistID={$artist['ArtistID']}'>
-                        <img src='../images/{$artist['Profile']}' alt='{$artist['Name']}'>
-                    </a>
-                            
-                    <div class='text'>
-                        <h3>{$artist['Name']}</h3>
-                       <p><strong>Services:</strong> {$artist['Services']} - {$artist['price']}</p>
-                        
-                        
-                    <h4>My Work</h4>
-                        <div class='work-gallery'>";
-                
-                // عرض كل الصور من JSON
-                if (!empty($workImages)) {
-                    foreach ($workImages as $image) {
-                        echo "<img src='../images/$image' alt='Work Image' class='work-image'>";
-                    }
-                } else {
-                    echo "<p>No work images available.</p>";
-                }
+    $workImages = !empty($artist['work']) ? json_decode($artist['work'], true) : [];
 
-                echo "</div>
-                    <div class='contact'>
-                    <p> For Contact: </p>
-                    <p><a href='{$artist['InstagramAccount']}' target='_blank'>• Instagram</a></p>
-                        <p><a href='{$artist['PhoneNumber']}' target='_blank'>• WhatsApp</a></p>
-                            </div>
-                    </div>
-                </div>";
-            }
+
+    echo "<div class='artist'>";
+    echo "<a href='../MakeUpAtrist/MakeUpArtist.php?ArtistID={$artist['ArtistID']}'>";
+
+    
+    if (!empty($artist['Profile']) && file_exists("../images/" . $artist['Profile'])) {
+        echo "<img src='../images/{$artist['Profile']}' alt='{$artist['Name']}'>";
+    } else {
+        echo "<div class='no-profile'>No profile picture available</div>";
+    }
+
+    echo "</a>";
+
+    echo "<div class='text'>
+            <h3>{$artist['Name']}</h3>
+            <p><strong>Services:</strong> {$artist['Services']} - {$artist['price']}</p>
+            <h4>My Work</h4>
+            <div class='work-gallery'>";
+
+    // ✅ صور الأعمال
+    if (!empty($workImages)) {
+        foreach ($workImages as $image) {
+            echo "<img src='../images/$image' alt='Work Image' class='work-image'>";
+        }
+    } else {
+        echo "<p>No work images available.</p>";
+    }
+
+    echo "</div>
+        <div class='contact'>
+            <p> For Contact: </p>
+            <p><a href='{$artist['InstagramAccount']}' target='_blank'>• Instagram</a></p>
+            <p><a href='{$artist['PhoneNumber']}' target='_blank'>• WhatsApp</a></p>
+        </div>
+    </div>
+    </div>";
+}
+
+            
         } else {
             echo "<p style='text-align: center; font-size: 18px; color: red;'>No makeup artists found.</p>";
         }
