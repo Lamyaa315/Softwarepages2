@@ -2,12 +2,12 @@
 session_start();
 include("../config.php"); 
 
-if (!isset($_SESSION['ArtistID'])) {
-  header("Location: login/login.php");
+if (!isset($_SESSION['artist_id'])) {
+  header("Location: Login/Login.php");
   exit();
 }
 
-$artistID = $_SESSION['ArtistID'];
+$artistID = $_SESSION['artist_id'];
 //$artistID = 3;
 
 // Get all reservations for this makeup artist
@@ -39,7 +39,7 @@ $result = mysqli_query($conn, $sql);
             <ul>
                 <li><a href="MAHomePage.html">Home</a></li>
                 <li><a href="MAppointment.html">Reservations</a></li>
-                <li><a href="modifyArtistProfile.html">Edit Profile</a></li>
+                <li><a href="../MakeUpArtist/modifyArtistProfile.php">Edit Profile</a></li>
                 <li><a href="../logout.php" class="signout">Signout</a></li>
             </ul>
         </nav>
