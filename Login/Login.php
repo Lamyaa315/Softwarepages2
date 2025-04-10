@@ -6,7 +6,7 @@ $username = "root";
 $password = "root";
 $database = "ruwaa";
 
-$conn = mysqli_connect($servername, $username, $password, $database,8889);
+$conn = mysqli_connect($servername, $username, $password, $database);
 $loginError = "";
 
 if (!$conn) {
@@ -18,40 +18,44 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $passwordInput = $_POST['password'] ?? '';
     $role = $_POST['role'] ?? '';
 
-    $stmt = mysqli_prepare($conn, "SELECT * FROM client WHERE Email = ? AND role = ? LIMIT 1");
-    mysqli_stmt_bind_param($stmt, "ss", $email, $role);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-
-    if ($result && mysqli_num_rows($result) === 1) {
-        $user = mysqli_fetch_assoc($result);
-
-        if (password_verify($passwordInput, $user['Password'])) {
-            $_SESSION['user'] = $user;
-            $_SESSION['artist_id'] = $user["ArtistID"] ?? null;
-            
-            if ($role === "Client") {
-                $_SESSION['ClientID'] = $user["ClientID"];
-                }
-
-            if ($role === "MakeupArtist") {
-    header("Location: http://localhost/Softwarepages2/MAHome/MAHomePage.html");
-} elseif ($role === "Client") {
-    header("Location: http://localhost/Softwarepages2/ClientHome/ClientHomePage.html");
-} else {
-    $loginError = "Invalid user role!";
-}
-
-
-            exit();
-        } else {
-            $loginError = "Incorrect password!";
-        }
+    if ($role === "Client") {
+        $stmt = mysqli_prepare($conn, "SELECT * FROM client WHERE Email = ? LIMIT 1");
+    } elseif ($role === "MakeupArtist") {
+        $stmt = mysqli_prepare($conn, "SELECT * FROM `makeup atrist` WHERE Email = ? LIMIT 1");
     } else {
-        $loginError = "Email not found!";
+        $loginError = "Invalid role selected!";
+        $stmt = null;
+    }
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if ($result && mysqli_num_rows($result) === 1) {
+            $user = mysqli_fetch_assoc($result);
+
+            if (password_verify($passwordInput, $user['Password'])) {
+                $_SESSION['user'] = $user;
+
+                if ($role === "Client") {
+                    $_SESSION['ClientID'] = $user["ClientID"];
+                    header("Location: http://localhost/Softwarepages2/ClientHome/ClientHomePage.html");
+                } else {
+                    $_SESSION['artist_id'] = $user["ArtistID"] ?? null;
+                    header("Location: http://localhost/Softwarepages2/MAHome/MAHomePage.html");
+                }
+                exit;
+            } else {
+                $loginError = "Incorrect password!";
+            }
+        } else {
+            $loginError = "Email not found!";
+        }
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,10 +68,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <div class="tabs">
         <a href="#" class="active">Login</a>
-        <a href="../Signup/Signup.html" class="inactive-tab">Sign Up</a>
+        <a href="../Signup/Signup.php" class="inactive-tab">Sign Up</a>
     </div>
 
-    <form method="POST" action="login.php" id="LoginForm">
+    <form method="POST" action="Login.php" id="LoginForm">
         <div class="form-group">
             <label for="email">Email Address:</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" required>
