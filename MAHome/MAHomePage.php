@@ -1,45 +1,11 @@
-<?php
-session_start();
-
-
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$database = "ruwaa";
-
-$conn = mysqli_connect($servername, $username, $password, $database);
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-if (!isset($_SESSION['ArtistID'])) {
-    header("Location: ../Login/Login.php");
-    exit();
-}
-
-$artistID = $_SESSION['ArtistID'];
-
-$sql = "SELECT client.Name AS ClientName, reservation.Date, reservation.Time, reservation.Status
-        FROM reservation
-        JOIN client ON reservation.ClientID = client.ClientID
-        WHERE reservation.ArtistID = ?
-        AND reservation.Date >= CURDATE()
-        ORDER BY reservation.Date ASC, reservation.Time ASC
-        LIMIT 1";
-
-$stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, "i", $artistID);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-$reservation = mysqli_fetch_assoc($result);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MA Home</title>
+    <title>Makeup Artist Home</title>
     <link rel="stylesheet" href="../General.css">
     <link rel="stylesheet" href="MAHomePage.css">
+    <script src="../FilterScript.js" defer></script>
 </head>
 <body>
     <header>
@@ -56,44 +22,88 @@ $reservation = mysqli_fetch_assoc($result);
         </nav>
     </header>
 
-    <section class="reservations">
-        <h2>Your Upcoming Reservations</h2>
-        <div class="reservation">
-            <?php if ($reservation): ?>
-                <ul>
-                    <li><strong>Client:</strong> <?= htmlspecialchars($reservation['ClientName']) ?></li>
-                    <li><strong>Date:</strong> <?= htmlspecialchars($reservation['Date']) ?></li>
-                    <li><strong>Time:</strong> <?= htmlspecialchars($reservation['Time']) ?></li>
-                    <li><strong>Status:</strong> <span class="confirmed"><?= htmlspecialchars($reservation['Status']) ?></span></li>
-                </ul>
-            <?php else: ?>
-                <p>No upcoming reservations found.</p>
-            <?php endif; ?>
+    <main class="dashboard">
+        <div class="filters">
+            <label for="sortStatus"><strong>Filter by Status:</strong></label>
+            <select id="sortStatus" onchange="sortAppointmentsByStatus()">
+                <option value="all">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+            </select>
         </div>
-    </section>
 
-    <section class="about-platform">
-        <h2>About رواء</h2>
-        <p>رواء is an innovative platform that connects beauty professionals with customers seeking high-quality makeup and hairstyling services. Our goal is to provide a seamless booking experience, ensuring you can find and book the perfect beauty expert for any occasion.</p>
+        <section class="appointments container">
+            <h2>Your Appointments</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Client</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Service</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    session_start();
+                        $servername = "localhost";
+                        $username = "root"; // Default for MAMP
+                        $password = "root"; // Default for MAMP
+                        $database = "ruwaa";
 
-        <div class="about-images">
-            <div class="about-card">
-                <img src="../images/About.jpg" alt="Easy Booking">
-                <h3>Easy Booking</h3>
-                <p>Schedule your appointments effortlessly with our user-friendly platform.</p>
-            </div>
-            <div class="about-card">
-                <img src="../images/About2.jpg" alt="Professional Beauty Services">
-                <h3>Professional Services</h3>
-                <p>Find top-rated beauty professionals for weddings, parties, and everyday looks.</p>
-            </div>
-            <div class="about-card">
-                <img src="../images/About4.jpg" alt="User-Friendly Experience">
-                <h3>Convenient Experience</h3>
-                <p>Enjoy a smooth and stress-free beauty service tailored to your needs.</p>
-            </div>
-        </div>
-    </section>
+                        // Create connection
+                        $conn = mysqli_connect($servername, $username, $password, $database);
+
+                        // Check connection
+                        if (!$conn) {
+                            die("Connection failed: " . mysqli_connect_error());
+                        }
+                    if (!isset($_SESSION['ArtistID'])) {
+                        header("Location: ../Login/Login.php");
+                        exit();
+                    }
+
+                    $artistID = $_SESSION['ArtistID'];
+                    $sql = "SELECT reservation.ReservationID, reservation.Date, reservation.Time, reservation.Status, reservation.Service, client.Name AS ClientName
+                            FROM reservation
+                            JOIN client ON reservation.ClientID = client.ClientID
+                            WHERE reservation.ArtistID = $artistID
+                            ORDER BY reservation.Date DESC, reservation.Time DESC";
+
+                    $result = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $status = strtolower($row['Status']);
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row['ClientName']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Date']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Time']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Service']) . "</td>";
+                            echo "<td class='status $status'>" . htmlspecialchars($row['Status']) . "</td>";
+
+                            if ($status === "pending") {
+                                echo "<td><form method='POST' action='../MAppointment/update_status.php'>";
+                                echo "<input type='hidden' name='reservation_id' value='" . $row['ReservationID'] . "'>";
+                                echo "<button type='submit' name='action' value='confirm' class='confirm-btn'>Confirm</button>";
+                                echo "<button type='submit' name='action' value='cancel' class='cancel-btn'>Cancel</button>";
+                                echo "</form></td>";
+                            } else {
+                                echo "<td>-</td>";
+                            }
+
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='6'>No appointments found.</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </section>
+    </main>
 
     <footer>
         <p>&copy; 2025 رواء. All Rights Reserved.</p>
