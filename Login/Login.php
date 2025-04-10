@@ -29,6 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (password_verify($passwordInput, $user['Password'])) {
             $_SESSION['user'] = $user;
             $_SESSION['artist_id'] = $user["ArtistID"] ?? null;
+            
+            if ($role === "Client") {
+                $_SESSION['ClientID'] = $user["ClientID"];
+                }
 
             if ($role === "MakeupArtist") {
     header("Location: http://localhost/Softwarepages2/MAHome/MAHomePage.html");

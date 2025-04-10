@@ -5,14 +5,14 @@ $user = "root";
 $password = "root";
 $database = "ruwaa";
 
-$conn = mysqli_connect($host, $user, $password, $database, 8889);
+$conn = mysqli_connect($host, $user, $password, $database, /*8889 */);
 
 if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
 }
 
 if (!isset($_SESSION['ClientID'])) {
-    header("Location: Login/Login.php");
+    header("Location: ../Login/Login.php");
     exit();
 }
 

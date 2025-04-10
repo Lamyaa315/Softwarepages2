@@ -5,7 +5,7 @@ session_start();
 include '../config.php';
 
  if (!isset($_SESSION['ClientID'])) {
-    header("Location: Login/Login.php");
+    header("Location: ../Login/Login.php");
     exit();
 }
 
