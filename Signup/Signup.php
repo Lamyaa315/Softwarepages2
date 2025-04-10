@@ -6,8 +6,7 @@ $username = "root";
 $password = "root";
 $database = "ruwaa";
 
-// الاتصال
-$conn = mysqli_connect($servername, $username, $password, $database,8889);
+$conn = mysqli_connect($servername, $username, $password, $database);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
