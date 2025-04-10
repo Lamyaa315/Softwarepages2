@@ -40,7 +40,7 @@ $result = mysqli_query($conn, $sql);
                 <li><a href="MAHomePage.html">Home</a></li>
                 <li><a href="MAppointment.html">Reservations</a></li>
                 <li><a href="modifyArtistProfile.html">Edit Profile</a></li>
-                <li><a href="logout.php" class="signout">Signout</a></li>
+                <li><a href="../logout.php" class="signout">Signout</a></li>
             </ul>
         </nav>
     </header>
