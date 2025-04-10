@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ];
 
                 if ($role === "MakeupArtist") {
-                    header("Location: ../MAHome/MAHomePage.html");
+                    header("Location: ../MAHome/MAHomePage.php");
                 } else {
                     header("Location: ../ClientHome/ClientHomePage.html");
                 }
