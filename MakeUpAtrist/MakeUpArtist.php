@@ -6,7 +6,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
 // الاتصال بقاعدة البيانات
-$artist_id = isset($_GET["id"]) ? intval($_GET["id"]) : 0;
+$artist_id = isset($_GET["ArtistID"]) ? intval($_GET["ArtistID"]) : 0;
 $servername = "localhost";
 $username = "root";
 $password = "root";
