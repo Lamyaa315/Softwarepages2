@@ -1,16 +1,6 @@
 <?php
-//session_start();
-$host = "localhost";
-$user = "root";
-$password = "root";
-$database = "ruwaa";
-
-$conn = mysqli_connect($host, $user, $password, $database, /*8889 */);
-
-if (!$conn) {
-    die("Database connection failed: " . mysqli_connect_error());
-}
-
+session_start();
+include("../config.php"); 
 if (!isset($_SESSION['ClientID'])) {
     header("Location: ../Login/Login.php");
     exit();
@@ -19,9 +9,9 @@ if (!isset($_SESSION['ClientID'])) {
 $clientID = $_SESSION['ClientID'];
 
 
-$sql = "SELECT reservation.Date, reservation.Time, reservation.Status, reservation.Service, `makeup artist`.Name AS ArtistName
+$sql = "SELECT reservation.Date, reservation.Time, reservation.Status, reservation.Service, `makeup_artist`.Name AS ArtistName
         FROM reservation
-        INNER JOIN `makeup artist` ON reservation.ArtistID = `makeup artist`.ArtistID
+        INNER JOIN `makeup_artist` ON reservation.ArtistID = `makeup_artist`.ArtistID
         WHERE reservation.ClientID = $clientID
         ORDER BY reservation.Date DESC, reservation.Time DESC";
 
