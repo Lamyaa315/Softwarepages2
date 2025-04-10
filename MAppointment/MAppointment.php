@@ -2,13 +2,13 @@
 session_start();
 include("../config.php"); 
 
-if (!isset($_SESSION['ArtistID'])) {
-  header("Location: login/login.php");
-  exit();
-}
+//if (!isset($_SESSION['ArtistID'])) {
+//  header("Location: login/login.php");
+//  exit();
+//}
 
-$artistID = $_SESSION['ArtistID'];
-//$artistID = 2;
+//$artistID = $_SESSION['ArtistID'];
+$artistID = 3;
 
 // Get all reservations for this makeup artist
 $sql = "SELECT reservation.ReservationID, reservation.Date, reservation.Time, reservation.Status, reservation.Service, client.Name AS ClientName
@@ -53,7 +53,7 @@ $result = mysqli_query($conn, $sql);
                 <option value="active">Active</option>
                 <option value="pending">Pending</option>
                 <option value="completed">Completed</option>
-                <option value="canceled">Canceled</option>
+                <option value="cancelled">Cancelled</option>
             </select>
         </div>
 
@@ -79,33 +79,36 @@ $result = mysqli_query($conn, $sql);
                     </tr>
                 </thead>
                 <tbody>
-                 <?php
-                 if (mysqli_num_rows($result) > 0) {
-                  while ($row = mysqli_fetch_assoc($result)) {
-                  echo "<tr>";
-                  echo "<td>" . htmlspecialchars($row['ClientName']) . "</td>";
-                  echo "<td>" . htmlspecialchars($row['Date']) . "</td>";
-                  echo "<td>" . htmlspecialchars($row['Time']) . "</td>";
-                  echo "<td>" . htmlspecialchars($row['Service']) . "</td>";
-                  echo "<td class='status " . strtolower($row['Status']) . "'>" . htmlspecialchars($row['Status']);
-                   if ($status === "pending") {
-                        echo "<form method='POST' action='update_status.php' style='display:flex; gap:5px;'>";
-                        echo "<input type='hidden' name='reservation_id' value='" . $row['ReservationID'] . "'>";
-                        echo "<button type='submit' name='action' value='confirm' class='confirm-btn'>Confirm</button>";
-                        echo "<button type='submit' name='action' value='cancel' class='cancel-btn'>Cancel</button>";
-                        echo "</form>";
-                    } else {
-                        echo htmlspecialchars($row['Status']);
-                    }
-                    
-                    echo "</td>";
-                  echo "</tr>";
-                  }
-                  } else {
-                   echo "<tr><td colspan='5'>No appointments found.</td></tr>";
-                   }
-                   ?>
-                </tbody>
+<?php
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $status = strtolower($row['Status']); 
+        echo "<tr>";
+        echo "<td>" . htmlspecialchars($row['ClientName']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['Date']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['Time']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['Service']) . "</td>";
+        echo "<td class='status $status'>";
+
+        if ($status === "pending") {
+            echo "<form method='POST' action='update_status.php' style='display:flex; gap:5px;'>";
+            echo "<input type='hidden' name='reservation_id' value='" . $row['ReservationID'] . "'>";
+            echo "<button type='submit' name='action' value='confirm' class='confirm-btn'>Confirm</button>";
+            echo "<button type='submit' name='action' value='cancel' class='cancel-btn'>Cancel</button>";
+            echo "</form>";
+        } else {
+            echo htmlspecialchars($row['Status']);
+        }
+
+        echo "</td>";
+        echo "</tr>";
+    }
+} else {
+    echo "<tr><td colspan='5'>No appointments found.</td></tr>";
+}
+?>
+</tbody>
+
             </table>
         </section>
     </main>
