@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 session_start();
 
@@ -68,7 +68,7 @@ $result = mysqli_query($conn, $sql);
                 $workImages = json_decode($artist['work'], true);
                 echo "
                 <div class ='artist'>
-                    <a href='MakeUpArtist.php?ArtistID={$artist['ArtistID']}'>
+                    <a href='../MakeUpAtrist/MakeUpArtist.php?ArtistID={$artist['ArtistID']}'>
                         <img src='../images/{$artist['Profile']}' alt='{$artist['Name']}'>
                     </a>
                             

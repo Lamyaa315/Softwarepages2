@@ -1,9 +1,10 @@
 <?php
 // عرض الأخطاء للتصحيح
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
+session_start();
 // الاتصال بقاعدة البيانات
 $artist_id = isset($_GET["id"]) ? intval($_GET["id"]) : 0;
 $servername = "localhost";
@@ -11,10 +12,11 @@ $username = "root";
 $password = "root";
 $database = "ruwaa";
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $database,8889);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+//مدري اذا هذا$artist_id = $_SESSION["artist_id"];
 
 // استعلام لجلب بيانات الفنانة
 $stmt = $conn->prepare("SELECT * FROM `makeup artist profile` WHERE id = ?");

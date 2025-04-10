@@ -1,30 +1,22 @@
 <?php
-//session_start();
-$host = "localhost";
-$user = "root";
-$password = "root";
-$database = "ruwaa";
-
-$conn = mysqli_connect($host, $user, $password, $database,8888);
-
-if (!$conn) {
-    die("Database connection failed: " . mysqli_connect_error());
-}
+session_start();
+include("../config.php"); 
 
 if (!isset($_SESSION['ArtistID'])) {
-    header("Location: login/login.php");
-   exit();
+  header("Location: login/login.php");
+  exit();
 }
 
 $artistID = $_SESSION['ArtistID'];
-//$artistID = 3;
+//$artistID = 2;
 
 // Get all reservations for this makeup artist
-$sql = "SELECT reservation.Date, reservation.Time, reservation.Status, reservation.Service, client.Name AS ClientName
+$sql = "SELECT reservation.ReservationID, reservation.Date, reservation.Time, reservation.Status, reservation.Service, client.Name AS ClientName
         FROM reservation
         INNER JOIN client ON reservation.ClientID = client.ClientID
         WHERE reservation.ArtistID = $artistID
         ORDER BY reservation.Date DESC, reservation.Time DESC";
+
 
 $result = mysqli_query($conn, $sql);
 ?>
@@ -95,7 +87,18 @@ $result = mysqli_query($conn, $sql);
                   echo "<td>" . htmlspecialchars($row['Date']) . "</td>";
                   echo "<td>" . htmlspecialchars($row['Time']) . "</td>";
                   echo "<td>" . htmlspecialchars($row['Service']) . "</td>";
-                  echo "<td class='status " . strtolower($row['Status']) . "'>" . htmlspecialchars($row['Status']) . "</td>";
+                  echo "<td class='status " . strtolower($row['Status']) . "'>" . htmlspecialchars($row['Status']);
+                   if ($status === "pending") {
+                        echo "<form method='POST' action='update_status.php' style='display:flex; gap:5px;'>";
+                        echo "<input type='hidden' name='reservation_id' value='" . $row['ReservationID'] . "'>";
+                        echo "<button type='submit' name='action' value='confirm' class='confirm-btn'>Confirm</button>";
+                        echo "<button type='submit' name='action' value='cancel' class='cancel-btn'>Cancel</button>";
+                        echo "</form>";
+                    } else {
+                        echo htmlspecialchars($row['Status']);
+                    }
+                    
+                    echo "</td>";
                   echo "</tr>";
                   }
                   } else {
