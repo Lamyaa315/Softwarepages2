@@ -5,14 +5,12 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-<<<<<<< Updated upstream:MakeUpArtist/modifyArtistProfile.php
 $conn = mysqli_connect("localhost","root" , "root", "ruwaa" , 8889);
 
 // لتظهر الأخطاء في الصفحة
 
-=======
+
 $conn = mysqli_connect("localhost", "root", "root", "ruwaa", 8889);
->>>>>>> Stashed changes:MakeUpAtrist/modifyArtistProfile.php
 
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -92,8 +90,23 @@ $workImages = !empty($artist["work"]) ? json_decode($artist["work"], true) : [];
         button { margin-top: 20px; padding: 10px 20px; background: #bfa380; color: white; border: none; border-radius: 5px; cursor: pointer; }
         .success { color: green; }
     </style>
+     <link rel="stylesheet" href="../General.css">
+    <link rel="stylesheet" href="MAHomePage.css">
 </head>
 <body>
+     <header>
+        <div class="logo">
+            <img src="../images/logo2.jpg" alt="رواء Logo">
+        </div>
+        <nav class="navigation">
+            <ul>
+                <li><a href="MAHomePage.php">Home</a></li>
+                <li><a href="../MAppointment/MAppointment.php">Reservations</a></li>
+                <li><a href="../MakeUpArtist/modifyArtistProfile.php">Edit Profile</a></li>
+                <li><a href="../logout.php" class="signout">Signout</a></li>
+            </ul>
+        </nav>
+    </header>
 <div class="container">
     <h2>Edit Your Profile</h2>
 
@@ -133,5 +146,8 @@ $workImages = !empty($artist["work"]) ? json_decode($artist["work"], true) : [];
         <button type="submit">Save</button>
     </form>
 </div>
+    <footer>
+        <p>&copy; 2025 رواء. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
