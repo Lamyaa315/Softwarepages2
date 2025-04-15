@@ -41,11 +41,11 @@ $result = mysqli_query($conn, $sql);
     </div>
     <nav class="navigation">
         <ul>
-            <li><a href="ClientHome/ClientHomePage.php">Home</a></li>
-                <li><a href="tips/tips.php">Beauty Tips</a></li>
-                <li><a href="CAppointment/CAppointment.php">Reservations</a></li>
-                <li><a href="MakeupArtistList/MakeupArtistList.php">Makeup Artists</a></li>
-                <li><a href="logout.php" class="signout">Signout</a></li>
+            <li><a href="../ClientHome/ClientHomePage.php">Home</a></li>
+                <li><a href="../tips/tips.html">Beauty Tips</a></li>
+                <li><a href="../CAppointment/CAppointment.html">Reservations</a></li>
+                <li><a href="../MakeupArtistList/MakeupArtistList.php">Makeup Artists</a></li>
+                <li><a href="../logout.php" class="signout">Signout</a></li>
         </ul>
     </nav>
   </header>
@@ -72,8 +72,8 @@ $result = mysqli_query($conn, $sql);
     echo "<a href='../MakeUpAtrist/MakeUpArtist.php?ArtistID={$artist['ArtistID']}'>";
 
     
-    if (!empty($artist['Profile']) && file_exists("../images/" . $artist['Profile'])) {
-        echo "<img src='../images/{$artist['Profile']}' alt='{$artist['Name']}'>";
+    if (!empty($artist['Profile']) && file_exists("../" . $artist['Profile'])) {
+        echo "<img src='../{$artist['Profile']}' alt='{$artist['Name']}'>";
     } else {
         echo "<div class='no-profile'>No profile picture available</div>";
     }
@@ -89,7 +89,7 @@ $result = mysqli_query($conn, $sql);
     // ✅ صور الأعمال
     if (!empty($workImages)) {
         foreach ($workImages as $image) {
-            echo "<img src='../images/$image' alt='Work Image' class='work-image'>";
+            echo "<img src='../$image' alt='Work Image' class='work-image'>";
         }
     } else {
         echo "<p>No work images available.</p>";

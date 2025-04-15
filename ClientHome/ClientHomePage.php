@@ -12,7 +12,7 @@ $clientID = $_SESSION['ClientID'];
 // Get upcoming reservation
 $sql = "SELECT art.Name, res.Date, res.Time, res.Status
         FROM reservation res
-        JOIN `makeup_artist` art ON res.ArtistID = art.ArtistID
+        JOIN `makeup atrist` art ON res.ArtistID = art.ArtistID
         WHERE res.ClientID = $clientID
             AND res.Date >= CURDATE()
         ORDER BY res.Date ASC, res.Time ASC

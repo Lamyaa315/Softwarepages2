@@ -55,18 +55,18 @@
                         $database = "ruwaa";
 
                         // Create connection
-                        $conn = mysqli_connect($servername, $username, $password, $database);
+                        $conn = mysqli_connect($servername, $username, $password, $database , 8889);
 
                         // Check connection
                         if (!$conn) {
                             die("Connection failed: " . mysqli_connect_error());
                         }
-                    if (!isset($_SESSION['ArtistID'])) {
-                        header("Location: ../Login/Login.php");
-                        exit();
+                    if (!isset($_SESSION['artist_id'])) {
+                        //header("Location: ../Login/Login.php");
+                        //exit();
                     }
 
-                    $artistID = $_SESSION['ArtistID'];
+                    $artistID = $_SESSION['artist_id'];
                     $sql = "SELECT reservation.ReservationID, reservation.Date, reservation.Time, reservation.Status, reservation.Service, client.Name AS ClientName
                             FROM reservation
                             JOIN client ON reservation.ClientID = client.ClientID
@@ -104,6 +104,28 @@
             </table>
         </section>
     </main>
+<section class="about-platform">
+        <h2>About رواء</h2>
+        <p>رواء is an innovative platform that connects beauty professionals with customers seeking high-quality makeup and hairstyling services. Our goal is to provide a seamless booking experience, ensuring you can find and book the perfect beauty expert for any occasion.</p>
+
+        <div class="about-images">
+            <div class="about-card">
+                <img src="../images/About.jpg" alt="Easy Booking">
+                <h3>Easy Booking</h3>
+                <p>Schedule your appointments effortlessly with our user-friendly platform.</p>
+            </div>
+            <div class="about-card">
+                <img src="../images/About2.jpg" alt="Professional Beauty Services">
+                <h3>Professional Services</h3>
+                <p>Find top-rated beauty professionals for weddings, parties, and everyday looks.</p>
+            </div>
+            <div class="about-card">
+                <img src="../images/About4.jpg" alt="User-Friendly Experience">
+                <h3>Convenient Experience</h3>
+                <p>Enjoy a smooth and stress-free beauty service tailored to your needs.</p>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <p>&copy; 2025 رواء. All Rights Reserved.</p>
