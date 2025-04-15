@@ -150,20 +150,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="stylesheet" href="../General.css">
 </head>
 <body>
-<header>
-    <div class="logo">
-        <img src="../images/logo2.jpg" alt="رواء Logo">
-    </div>
-    <nav class="navigation">
-        <ul>
-            <li><a href="../MAHome/MAHomePage.php">Home</a></li>
-            <li><a href="../MAppointment/MAppointment.php">Reservations</a></li>
-            <li><a href="../MakeUpArtist/modifyArtistProfile.php">Edit Profile</a></li>
-            <li><a href="../logout.php" class="signout">Signout</a></li>
-        </ul>
-    </nav>
-</header>
-
+     <header>
+        <div class="logo">
+            <img src="../images/logo2.jpg" alt="رواء Logo">
+        </div>
+        <nav class="navigation">
+            <ul>
+                <li><a href="MAHome/MAHomePage.php">Home</a></li>
+                <li><a href="../MAppointment/MAppointment.php">Reservations</a></li>
+                <li><a href="../MakeUpArtist/modifyArtistProfile.php">Edit Profile</a></li>
+                <li><a href="../logout.php" class="signout">Signout</a></li>
+            </ul>
+        </nav>
+    </header>
 <div class="container">
     <h2>Edit Your Profile</h2>
 

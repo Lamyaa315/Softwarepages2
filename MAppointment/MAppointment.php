@@ -37,7 +37,7 @@ $result = mysqli_query($conn, $sql);
         </div>
         <nav class="navigation">
             <ul>
-                <li><a href="MAHomePage.php">Home</a></li>
+                <li><a href="MAHome/MAHomePage.php">Home</a></li>
                 <li><a href="MAppointment.php">Reservations</a></li>
                 <li><a href="../MakeUpArtist/modifyArtistProfile.php">Edit Profile</a></li>
                 <li><a href="../logout.php" class="signout">Signout</a></li>
