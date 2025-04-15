@@ -104,11 +104,11 @@ $workImages = json_decode($artist["work"]);
         </div>
         <nav class="navigation">
             <ul>
-                <li><a href="ClientHomePage.html">Home</a></li>
-                <li><a href="tips.html">Beauty Tips</a></li>
-                <li><a href="CAppointment.html">Reservations</a></li>
-                <li><a href="MakeupArtistList.html">Makeup Artists</a></li>
-                <li><a href="logout.php" class="signout">Signout</a></li>
+                <li><a href="ClientHome/ClientHomePage.html">Home</a></li>
+                <li><a href="tips/tips.html">Beauty Tips</a></li>
+                <li><a href="CAppointment/CAppointment.php">Reservations</a></li>
+                <li><a href="MakeupArtistList/MakeupArtistList.php">Makeup Artists</a></li>
+                <li><a href="../logout.php" class="signout">Signout</a></li>
             </ul>
         </nav>
     </header>
