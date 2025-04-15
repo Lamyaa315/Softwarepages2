@@ -70,7 +70,71 @@
             font-size: 1.1em;
         }
     
-    .confirmed {
-        color: green;
-        font-weight: bold;
+    
+   
+.reservations {
+    margin: 20px auto;
+    width: 90%;
+    max-width: 800px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reservation ul {
+    list-style: none;
+    padding: 0;
+}
+
+    .reservation ul li {
+        padding: 8px 0;
+        font-size: 1.1em;
     }
+
+/*.confirmed {
+    color: green;
+    font-weight: bold;
+}*/
+
+/* Discover Artists Section */
+.artists-section {
+    margin: 30px 0;
+}
+
+.artists-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.artist-card {
+    background: white;
+    padding: 15px;
+    width: 250px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+    .artist-card img {
+        width: 100%;
+        border-radius: 8px;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .artist-card h4 {
+        margin: 10px 0 5px;
+        font-size: 1.2em;
+    }
+
+    .artist-card p {
+        color: #666;
+        font-size: 0.9em;
+    }
+
+.view-more {
+    margin-top: 15px;
+}

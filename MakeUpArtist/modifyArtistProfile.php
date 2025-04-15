@@ -156,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
         <nav class="navigation">
             <ul>
-                <li><a href="MAHome/MAHomePage.php">Home</a></li>
+                <li><a href="../MAHome/MAHomePage.php">Home</a></li>
                 <li><a href="../MAppointment/MAppointment.php">Reservations</a></li>
                 <li><a href="../MakeUpArtist/modifyArtistProfile.php">Edit Profile</a></li>
                 <li><a href="../logout.php" class="signout">Signout</a></li>

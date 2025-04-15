@@ -33,8 +33,8 @@
             </select>
         </div>
 
-        <section class="appointments container">
-            <h2>Your Appointments</h2>
+        <section class="reservations">
+<!--            <h2>Your Appointments</h2>
             <table>
                 <thead>
                     <tr>
@@ -45,7 +45,7 @@
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
-                </thead>
+                </thead>-->
                 <tbody>
                     <?php
                     session_start();
@@ -65,41 +65,34 @@
                         //header("Location: ../Login/Login.php");
                         //exit();
                     }
-
                     $artistID = $_SESSION['artist_id'];
-                    $sql = "SELECT reservation.ReservationID, reservation.Date, reservation.Time, reservation.Status, reservation.Service, client.Name AS ClientName
-                            FROM reservation
-                            JOIN client ON reservation.ClientID = client.ClientID
-                            WHERE reservation.ArtistID = $artistID
-                            ORDER BY reservation.Date DESC, reservation.Time DESC";
+                    // Get upcoming reservation
+$sql = "SELECT c.Name, res.Date, res.Time, res.Status
+        FROM reservation res
+        JOIN `client` c ON res.ClientID = c.ClientID
+        WHERE res.ArtistID = $artistID
+            AND res.Date >= CURDATE()
+        ORDER BY res.Date ASC, res.Time ASC
+        LIMIT 1";
 
-                    $result = mysqli_query($conn, $sql);
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $status = strtolower($row['Status']);
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($row['ClientName']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Date']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Time']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Service']) . "</td>";
-                            echo "<td class='status $status'>" . htmlspecialchars($row['Status']) . "</td>";
+$result = mysqli_query($conn, $sql);
+$reservation = mysqli_fetch_assoc($result);
+?>
 
-                            if ($status === "pending") {
-                                echo "<td><form method='POST' action='../MAppointment/update_status.php'>";
-                                echo "<input type='hidden' name='reservation_id' value='" . $row['ReservationID'] . "'>";
-                                echo "<button type='submit' name='action' value='confirm' class='confirm-btn'>Confirm</button>";
-                                echo "<button type='submit' name='action' value='cancel' class='cancel-btn'>Cancel</button>";
-                                echo "</form></td>";
-                            } else {
-                                echo "<td>-</td>";
-                            }
-
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='6'>No appointments found.</td></tr>";
-                    }
-                    ?>
+        <h2>Your Upcoming Reservation</h2>
+        <div class="reservation">
+            <?php if ($reservation): ?>
+                <ul>
+                    <li><strong>Client:</strong> <?php echo $reservation['Name']; ?></li>
+                    <li><strong>Date:</strong> <?php echo $reservation['Date']; ?></li>
+                    <li><strong>Time:</strong> <?php echo $reservation['Time']; ?></li>
+                    <li><strong>Status:</strong> <span class="confirmedd"><?php echo $reservation['Status']; ?></span></li>
+                </ul>
+            <?php else: ?>
+                <p>No Upcoming Reservations</p>
+            <?php endif; ?>
+        </div>
+    </section>
                 </tbody>
             </table>
         </section>

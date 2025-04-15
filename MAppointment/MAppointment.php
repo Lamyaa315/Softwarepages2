@@ -37,7 +37,7 @@ $result = mysqli_query($conn, $sql);
         </div>
         <nav class="navigation">
             <ul>
-                <li><a href="MAHome/MAHomePage.php">Home</a></li>
+                <li><a href="../MAHome/MAHomePage.php">Home</a></li>
                 <li><a href="MAppointment.php">Reservations</a></li>
                 <li><a href="../MakeUpArtist/modifyArtistProfile.php">Edit Profile</a></li>
                 <li><a href="../logout.php" class="signout">Signout</a></li>
@@ -50,23 +50,13 @@ $result = mysqli_query($conn, $sql);
             <label for="sortStatus"><strong>Filter by Status:</strong></label>
             <select id="sortStatus" onchange="sortAppointmentsByStatus()">
                 <option value="all">All Statuses</option>
-                <option value="active">Active</option>
+                <option value="confirmed">Confirmed</option>
                 <option value="pending">Pending</option>
                 <option value="completed">Completed</option>
                 <option value="cancelled">Cancelled</option>
             </select>
         </div>
 
-
-
-
-        <!---<select id="sortStatus" onchange="sortAppointmentsByStatus()">
-            <option value="status">Sort by Status</option>
-            <option value="all">All Statuses</option>
-            <option value="active">Active</option>
-            <option value="completed">Completed</option>
-            <option value="canceled">Canceled</option>
-        </select>-->
         <section class="appointments container">
             <table>
                 <thead>

@@ -41,10 +41,10 @@ $result = mysqli_query($conn, $sql);
     </div>
     <nav class="navigation">
         <ul>
-            <li><a href="ClientHome/ClientHomePage.php">Home</a></li>
-                <li><a href="tips/tips.html">Beauty Tips</a></li>
-                <li><a href="CAppointment/CAppointment.php">Reservations</a></li>
-                <li><a href="MakeupArtistList.php">Makeup Artists</a></li>
+            <li><a href="../ClientHome/ClientHomePage.php">Home</a></li>
+                <li><a href="../tips/tips.html">Beauty Tips</a></li>
+                <li><a href="../CAppointment/CAppointment.php">Reservations</a></li>
+                <li><a href="../MakeupArtistList.php">Makeup Artists</a></li>
                 <li><a href="../logout.php" class="signout">Signout</a></li>
         </ul>
     </nav>
@@ -69,7 +69,7 @@ $result = mysqli_query($conn, $sql);
 
 
     echo "<div class='artist'>";
-    echo "<a href='../MakeUpAtrist/MakeUpArtist.php?ArtistID={$artist['ArtistID']}'>";
+    echo "<a href='../MakeUpArtist/MakeUpArtist.php?ArtistID={$artist['ArtistID']}'>";
 
     
     if (!empty($artist['Profile']) && file_exists("../" . $artist['Profile'])) {

@@ -7,7 +7,7 @@ if (isset($_POST['reservation_id']) && isset($_POST['action'])) {
     $action = $_POST['action'];
 
   if ($action === 'confirm') {
-    $newStatus = 'Completed';   
+    $newStatus = 'Confirmed';   
 } elseif ($action === 'cancel') {
     $newStatus = 'Cancelled';   
 } else {

@@ -13,8 +13,12 @@ th, td {
     border-bottom: 1px solid #ddd;
 }
 
-.status.active {
+.status.confirm {
     color: green;
+    font-weight: bold;
+}
+td.status.confirmed {
+    color: #95775e;
     font-weight: bold;
 }
 

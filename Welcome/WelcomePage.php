@@ -14,8 +14,8 @@
         </div>
         <nav class="navigation">
             <ul>
-                <li><a href="WelcomePage.php">Home</a></li>
-                <li><a href="tips_welcome.php">Beauty Tips</a></li>
+                <li><a href="../WelcomePage.php">Home</a></li>
+                <li><a href="../tips/tips_welcome.php">Beauty Tips</a></li>
             </ul>
         </nav>
     </header>
