@@ -4,25 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Makeup Tips</title>
-    <link rel="stylesheet" href="General.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f8fa;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
+        
         .container {
-            width: 600px;
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+           background: white;
+            width: 100%;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
             text-align: center;
             overflow-y: auto;
         }
@@ -37,17 +29,107 @@
             border-radius: 10px;
             margin-top: 10px;
         }
+        
+        body{
+    height:100%;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+}
+main{
+    flex:1;
+}
+header, footer {
+    background-color: white;
+    width: 100%;
+    padding: 10px 20px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.logo img {
+    width: 350px;
+}
+
+.navigation {
+    background-color: #94A6A2;
+    border-top-left-radius: 30px;
+    padding: 50px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+    nav ul li {
+        margin: 0 10px;
+    }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #95775e;
+            font-size: 22px;
+            padding: 10px 15px;
+            background-color: #94A6A2;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+            nav ul li a:hover {
+                background-color: #95775e;
+                color: white;
+            }
+
+.signout {
+    background-color: #95775e;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+}
+
+
+footer {
+    text-align: center;
+    padding: 20px;
+    bottom: 0;
+    left:0;
+    padding:10px 0;
+    width: 100%;
+   
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+    footer p {
+        background-color: #94A6A2;
+        border-radius: 15px;
+        padding: 10px;
+        color: white;
+    }
+
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header>
+   <header>
         <div class="logo">
-            <img src="logo2.jpg" alt="رواء Logo">
+            <img src="../images/logo2.jpg" alt="رواء Logo">
         </div>
         <nav class="navigation">
             <ul>
-                <li><a href="WelcomePage.html">Home</a></li>
+                <li><a href="../WelcomePage.php">Home</a></li>
+                <li><a href="../tips/tips_welcome.php">Beauty Tips</a></li>
             </ul>
         </nav>
     </header>
@@ -65,7 +147,7 @@
             <div class="tip">
                 <h3>Use a Primer</h3>
                 <p>Apply a primer to make your makeup last longer and look flawless.</p>
-                <img src="images/Primers.jpeg" alt="Primer Application">
+                <img src="../images/Primers.jpeg" alt="Primer Application">
             
             </div>
 
@@ -74,7 +156,7 @@
                 <p>Make sure to blend your foundation and eyeshadow properly for a natural look.</p>
                
                 <video controls>
-                    <source src="images/blend.mp4" type="video/mp4">
+                    <source src="../images/blend.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
@@ -82,7 +164,7 @@
             <div class="tip">
                 <h3>Choose the Right Shade</h3>
                 <p>Ensure your foundation and concealer match your skin tone perfectly.</p>
-                <img src="images/shades.jpg" alt="Choosing the Right Shade">
+                <img src="../images/shades.jpeg" alt="Choosing the Right Shade">
               
             </div>
         </div>
