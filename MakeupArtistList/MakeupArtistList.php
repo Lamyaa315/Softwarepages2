@@ -33,6 +33,47 @@ $result = mysqli_query($conn, $sql);
     <title>Makeup Artists</title>
     <link rel="stylesheet" href="../General.css">
     <link rel="stylesheet" href="MakeupArtistList.css">
+    <style>
+        .search-filter {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0 20px;
+}
+
+.search-container {
+    display: flex;
+    width: 100%;
+    max-width: 400px;
+    border: 2px solid #bfa380;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.search-container input[type="text"] {
+    flex: 1;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+}
+
+.search-container button {
+    background-color: #bfa380;
+    color: white;
+    padding: 0 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-container button:hover {
+    background-color: #a98a6a;
+}
+
+    </style>
 </head>
 <body>
   <header>
@@ -51,12 +92,14 @@ $result = mysqli_query($conn, $sql);
   </header>
 
   <main>
-    <div class="search-filter">
-        <form method="GET" action="">
-            <input type="text" name="search" placeholder="Search for an artist..." value="<?php echo $search; ?>">
-            <button type="submit">Search</button>
-        </form>
-    </div>
+<div class="search-filter">
+    <form method="GET" action="">
+        <div class="search-container">
+            <input type="text" name="search" placeholder="Search for an artist..." value="<?php echo htmlspecialchars($search); ?>">
+            <button type="submit">🔍</button>
+        </div>
+    </form>
+</div>
 
      
       
