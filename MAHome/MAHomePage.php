@@ -62,8 +62,8 @@
                             die("Connection failed: " . mysqli_connect_error());
                         }
                     if (!isset($_SESSION['artist_id'])) {
-                        //header("Location: ../Login/Login.php");
-                        //exit();
+                        header("Location: ../Login/Login.php");
+                        exit();
                     }
                     $artistID = $_SESSION['artist_id'];
                     // Get upcoming reservation
@@ -71,6 +71,7 @@ $sql = "SELECT c.Name, res.Date, res.Time, res.Status
         FROM reservation res
         JOIN `client` c ON res.ClientID = c.ClientID
         WHERE res.ArtistID = $artistID
+            AND res.Status != 'Cancelled'
             AND res.Date >= CURDATE()
         ORDER BY res.Date ASC, res.Time ASC
         LIMIT 1";

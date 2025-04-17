@@ -14,6 +14,7 @@ $sql = "SELECT art.Name, res.Date, res.Time, res.Status
         FROM reservation res
         JOIN `makeup atrist` art ON res.ArtistID = art.ArtistID
         WHERE res.ClientID = $clientID
+        AND res.Status != 'Cancelled'
             AND res.Date >= CURDATE()
         ORDER BY res.Date ASC, res.Time ASC
         LIMIT 1";
