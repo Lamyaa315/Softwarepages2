@@ -44,14 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt) {
             if (mysqli_stmt_execute($stmt)) {
-                $_SESSION['user'] = [
-                    'Name' => $name,
-                    'Email' => $email,
-                ];
-
+                // ✅ SET session variables for login persistence
                 if ($role === "MakeupArtist") {
+                    $_SESSION['ArtistID'] = $artistID;
                     header("Location: ../MAHome/MAHomePage.php");
                 } else {
+                    $_SESSION['ClientID'] = $clientID;
                     header("Location: ../ClientHome/ClientHomePage.php");
                 }
                 exit;
@@ -63,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 
 
 
