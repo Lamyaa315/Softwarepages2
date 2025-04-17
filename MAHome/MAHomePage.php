@@ -23,7 +23,7 @@
     </header>
 
     <main class="dashboard">
-        <div class="filters">
+        <!-- <div class="filters">
             <label for="sortStatus"><strong>Filter by Status:</strong></label>
             <select id="sortStatus" onchange="sortAppointmentsByStatus()">
                 <option value="all">All Statuses</option>
@@ -31,7 +31,7 @@
                 <option value="completed">Completed</option>
                 <option value="cancelled">Cancelled</option>
             </select>
-        </div>
+        </div>-->
 
         <section class="reservations">
 <!--            <h2>Your Appointments</h2>
