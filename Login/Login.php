@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 if ($role === "Client") {
                     $_SESSION['ClientID'] = $user["ClientID"];
-                    header("Location: http://localhost:8888/Softwarepages2/ClientHome/ClientHomePage.html");
+                    header("Location: http://localhost:8888/Softwarepages2/ClientHome/ClientHomePage.php");
                 } else {
                     $_SESSION['artist_id'] = $user["ArtistID"] ?? null;
                     header("Location: http://localhost:8888/Softwarepages2/MAHome/MAHomePage.php");
