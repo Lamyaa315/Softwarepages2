@@ -204,9 +204,10 @@ footer {
         </div>
 
         <h2>Services</h2>
-        <ul>
-            <li><?= htmlspecialchars($artist["Services"] ?? 'No services listed.') ?></li>
-        </ul>
+        
+            <p><?= htmlspecialchars($artist["Services"] ?? 'No services listed.') ?></p>
+        
+        <h2>Price: <?= htmlspecialchars($artist["price"]) ?> SR</h2>
 
         <button id="bookingButton" class="booking-button">Book Now</button>
 
