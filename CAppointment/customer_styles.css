@@ -26,7 +26,14 @@ th, td {
     color: darkred;
     font-weight: bold;
 }
-
+.status.confirmed{
+    color: green;
+    font-weight: bold;
+}
+td.status.confirmed {
+    color: #95775e;
+    font-weight: bold;
+}
 .status.completed {
     color: darkslategrey;
     font-weight: bold;

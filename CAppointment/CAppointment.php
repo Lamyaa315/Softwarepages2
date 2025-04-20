@@ -53,6 +53,8 @@ $result = mysqli_query($conn, $sql);
                 <option value="pending">Pending</option>
                 <option value="completed">Completed</option>
                 <option value="cancelled">Cancelled</option>
+                <option value="confirmed">Confirmed</option>
+                
             </select>
         </div>
         <section class="appointments container">
